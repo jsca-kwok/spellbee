@@ -24,7 +24,7 @@ export default function Decks({ navigation }) {
                 animationType='slide'
                 visible={modalOpen}
             >
-                <ModalForm setModalOpen={setModalOpen} modalStatus={modalOpen}/>
+                <ModalForm setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks}/>
             </Modal>
             <Icon name='ios-add-circle' type='ionicon' color='#f50' onPress={() => {setModalOpen(!modalOpen)}} />
             <FlatList 
