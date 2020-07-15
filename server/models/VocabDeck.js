@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const vocabDeckSchema = new Schema({
     deck: String,
     deckImg: String,
-    words: [{word: String, id: Number, wordImg: String}]
+    words: [{word: String, wordId: String, wordImg: String}]
 }, { collection: 'VocabDeck' })
 
 const VocabDeck = mongoose.model('VocabDeck', vocabDeckSchema);

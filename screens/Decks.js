@@ -1,55 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
+import ModalForm from '../components/ModalForm';
 
 export default function Decks({ navigation }) {
     const [modalOpen, setModalOpen] = useState(false);
-    const [decks, setDecks] = useState([
-        { 
-            deck: 'Animals',
-            key: '1',
-            words: [{
-                id: 11,
-                word: 'tiger',
-            },
-            {
-                id: 12,
-                word: 'lamb',
-            },
-            {
-                id: 13,
-                word: 'ostrich',
-            }]
-        },
-        { 
-            deck: 'Colours',
-            key: '2',
-            words: [{
-                id: 21,
-                word: 'blue',
-            },
-            {
-                id: 22,
-                word: 'yellow',
-            },
-            {
-                id: 23,
-                word: 'red',
-            }]
-        }
-    ])
+    const [decks, setDecks] = useState('');
 
+    // seed vocab decks
+    useEffect(() => {getDecks()}, []);
+    getDecks = () => {
+        axios.get('http://localhost:8080/vocabulary')
+        .then(res => setDecks(res.data))
+        .catch(err => console.log(err));
+    }
+    
     return (
         <View style={globalStyles.container}>
             <Modal
                 animationType='slide'
                 visible={modalOpen}
             >
-                <TouchableOpacity onPress={() => {setModalOpen(!modalOpen)}}>
-                    <Text>SAVE</Text>
-                </TouchableOpacity>
+                <ModalForm setModalOpen={setModalOpen} modalStatus={modalOpen}/>
             </Modal>
             <Icon name='ios-add-circle' type='ionicon' color='#f50' onPress={() => {setModalOpen(!modalOpen)}} />
             <FlatList 

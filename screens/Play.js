@@ -43,18 +43,18 @@ export default function Play({ navigation }) {
             textInput.current.clear();
         }
     }
-    
+
     return (
         <View style={globalStyles.container}>
             {
                 wordList.map(word => {
                     return (
-                        <View key={word.id}>
-                        <TouchableOpacity onPress={() => {handlePress(word.word)}}>
-                            <SpellItem>
-                                <Text style={globalStyles.text}>{word.word}</Text>
-                            </SpellItem>
-                        </TouchableOpacity>
+                        <View key={word.wordId}>
+                            <TouchableOpacity onPress={() => {handlePress(word.word)}}>
+                                <SpellItem>
+                                    <Text style={globalStyles.text}>{word.word}</Text>
+                                </SpellItem>
+                            </TouchableOpacity>
                         </View>
                     )
                 })

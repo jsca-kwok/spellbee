@@ -9,7 +9,7 @@ const screens = {
     Home: {
         screen: Home,
         navigationOptions: {
-            title: 'Play Game',
+            title: 'SpellBee',
         }
     },
     Decks: {
