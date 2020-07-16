@@ -31,7 +31,8 @@ app.post('/vocabulary', (req, res) => {
     VocabDeck.create({
         deck: req.body.deck,
         deckImg: req.body.deckImg,
-        words: req.body.words
+        words: req.body.words,
+        id: req.body.id
     }, function(err, deck) {
         if (err) {
             console.log(err);
@@ -42,7 +43,7 @@ app.post('/vocabulary', (req, res) => {
 
 // delete specified deck
 app.delete('/vocabulary', (req, res) => {
-    VocabDeck.deleteOne({ deck: req.body.deck }, function (err) {
+    VocabDeck.deleteOne({ id: req.body.id }, function (err) {
         if (err) {
             console.log(err);
         }

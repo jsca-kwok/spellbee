@@ -4,7 +4,7 @@ import { globalStyles } from '../styles/global';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 
-export default function ModalForm({ setModalOpen, modalStatus }) {
+export default function ModalForm({ setModalOpen, modalStatus, getDecks }) {
     const [deckName, setDeckName] = useState('');
     const [word, setWord] = useState({});
     const [word2, setWord2] = useState({});
@@ -19,11 +19,12 @@ export default function ModalForm({ setModalOpen, modalStatus }) {
         setWordList(wordList);
         axios.post('http://localhost:8080/vocabulary', {
             deck: `${deckName}`,
+            id: uuid(),
             deckImg: '',
             words: wordList
         })
-            .then(_res => getDecks())
-            .catch(err => console.log(err));
+        .then(_res => getDecks())
+        .catch(err => console.log(err));
     }
 
     return(
