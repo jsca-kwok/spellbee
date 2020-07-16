@@ -1,0 +1,32 @@
+const animalImages = {
+    alligator: require('./alligator.png'),
+    anteater: require('./anteater.png'),
+    camel: require('./camel.png'),
+    cat: require('./cat.png'),
+    cheetah: require('./cheetah.png'),
+    chick: require('./chick.png'),
+    chicken: require('./chicken.png'),
+    dog: require('./dog.png'),
+    elephant: require('./elephant.png'),
+    fox: require('./fox.png'),
+    goat: require('./goat.png'),
+    hippopotamus: require('./hippopotamus.png'),
+    horse: require('./horse.png'),
+    kangaroo: require('./kangaroo.png'),
+    lamb: require('./lamb.png'),
+    lion: require('./lion.png'),
+    monkey: require('./monkey.png'),
+    ostrich: require('./ostrich.png'),
+    panda: require('./panda.png'),
+    penguin: require('./penguin.png'),
+    pig: require('./pig.png'),
+    rabbit: require('./rabbit.png'),
+    rhinoceros: require('./rhinoceros.png'),
+    snake: require('./snake.png'),
+    stork: require('./stork.png'),
+    toucan: require('./toucan.png'),
+    vulture: require('./vulture.png'),
+    zebra: require('./zebra.png')
+}
+
+export default animalImages;

@@ -70,8 +70,15 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks }) {
                 onPress={() => {
                     addNewDeck();
                     setModalOpen(!modalStatus);
-                }}>
+                }}
+            >
                 <Text style={globalStyles.container}>SAVE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={globalStyles.container} 
+                onPress={() => {setModalOpen(!modalStatus)}}
+            >
+                <Text style={globalStyles.container}>CANCEL</Text>
             </TouchableOpacity>
         </View>
     )

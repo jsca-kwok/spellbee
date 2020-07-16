@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
 import * as Speech from 'expo-speech';
 import { globalStyles } from '../styles/global';
 import SpellItem from '../components/SpellItem';
+import animalImages from '../assets/images/animals/animalImages';
+import coloursImages from '../assets/images/colours/coloursImages';
+import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
 
 export default function Play({ navigation }) {
     const [inputValue, setInputValue] = useState('');
@@ -13,7 +16,9 @@ export default function Play({ navigation }) {
 
     // set current word list in play
     const wordList = navigation.getParam('words');
-    const [deckWords, setDeckWords] = useState(wordList);
+    // randomizes word list and chooses only 5
+    const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,5);
+    const [deckWords, setDeckWords] = useState(randomWords);
 
     // text to speech
     const sayWord = (word) => {
@@ -47,12 +52,12 @@ export default function Play({ navigation }) {
     return (
         <View style={globalStyles.container}>
             {
-                wordList.map(word => {
+                deckWords.map(word => {
                     return (
                         <View key={word.wordId}>
                             <TouchableOpacity onPress={() => {handlePress(word.word)}}>
-                                <SpellItem>
-                                    <Text style={globalStyles.text}>{word.word}</Text>
+                                <SpellItem style={globalStyles.container}>
+                                    <Image style={globalStyles.images} source={animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
                                 </SpellItem>
                             </TouchableOpacity>
                         </View>

@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
 import { globalStyles } from '../styles/global';
 
-export default function DeckOptions({ toEditDeck, deleteDeck, setSelectedDeck }) {
+export default function DeckOptions({ toEditDeck, deleteDeck, setSelectedDeck, setModalOpen, modalOpen }) {
     return(
         <View style={globalStyles.container}>
-            {/* need to add onpress function for editing */}
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setModalOpen(!modalOpen)}>
                 <Text style={globalStyles.text}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={(_e) => deleteDeck(toEditDeck)}>

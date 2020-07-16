@@ -4,19 +4,8 @@ import { StyleSheet, View } from 'react-native';
 export default function SpellItem(props) {
 
     return(
-        <View style={StyleSheet.spellItem}>
-            <View style={StyleSheet.spellItemContent}>
-                { props.children }
-            </View>
+        <View>
+            { props.children }
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    spellItem: {
-
-    },
-    spellItemContent: {
-        
-    }
-})
