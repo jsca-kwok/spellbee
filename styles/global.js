@@ -4,7 +4,7 @@ export const globalStyles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     text: {
         fontFamily: 'Varela',
@@ -12,7 +12,11 @@ export const globalStyles = StyleSheet.create({
     },
     images: {
         resizeMode: 'contain',
-        width: 150,
-        height: 150
+        width: 140,
+        height: 140
+    },
+    input: {
+        padding: 40,
+        fontSize: 18
     }
 })

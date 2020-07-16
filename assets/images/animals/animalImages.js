@@ -26,7 +26,8 @@ const animalImages = {
     stork: require('./stork.png'),
     toucan: require('./toucan.png'),
     vulture: require('./vulture.png'),
-    zebra: require('./zebra.png')
+    zebra: require('./zebra.png'),
+    animals: require('./alligator.png')
 }
 
 export default animalImages;

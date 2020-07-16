@@ -9,3 +9,10 @@ export default function SpellItem(props) {
         </View>
     )
 }
+
+// const styles = StyleSheet.create({
+//     spellItemContainer: {
+//         flex: 1,
+//         flexDirection: 'row'
+//     }
+// })

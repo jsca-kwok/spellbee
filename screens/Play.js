@@ -6,6 +6,7 @@ import SpellItem from '../components/SpellItem';
 import animalImages from '../assets/images/animals/animalImages';
 import coloursImages from '../assets/images/colours/coloursImages';
 import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
+import defaultImages from '../assets/images/defaultImages';
 
 export default function Play({ navigation }) {
     const [inputValue, setInputValue] = useState('');
@@ -50,27 +51,43 @@ export default function Play({ navigation }) {
     }
 
     return (
-        <View style={globalStyles.container}>
-            {
-                deckWords.map(word => {
-                    return (
-                        <View key={word.wordId}>
-                            <TouchableOpacity onPress={() => {handlePress(word.word)}}>
-                                <SpellItem style={globalStyles.container}>
-                                    <Image style={globalStyles.images} source={animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
-                                </SpellItem>
-                            </TouchableOpacity>
-                        </View>
-                    )
-                })
-            }
+        <View style={styles.playScene}>
+            <View style={styles.imageContainer}>
+                {
+                    deckWords.map(word => {
+                        return (
+                            <View key={word.wordId}>
+                                <TouchableOpacity onPress={() => {handlePress(word.word)}}>
+                                    <SpellItem>
+                                        <Image style={globalStyles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
+                                    </SpellItem>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    })
+                }
+            </View>
             <TextInput 
                 onChange={(event) => handleInputChange(event)}
-                placeholder='spell it!' 
+                placeholder='Tap here to spell it!' 
                 autoCapitalize='none'
                 autoCompleteType='off'
                 ref={textInput}
+                style={globalStyles.input}
             />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    playScene: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    imageContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    }
+})

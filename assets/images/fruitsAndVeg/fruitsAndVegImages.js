@@ -17,6 +17,7 @@ const fruitsAndVegImages = {
     strawberry: require('./strawberry.png'),
     tomato: require('./tomato.png'),
     radish: require('./radish.png'),
+    fruitsAndVeg: require('./pineapple.png')
 }
 
 export default fruitsAndVegImages;

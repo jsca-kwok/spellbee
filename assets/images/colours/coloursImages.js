@@ -5,6 +5,7 @@ const coloursImages = {
     purple: require('./purple.png'),
     red: require('./red.png'),
     yellow: require('./yellow.png'),
+    colours: require('./colours.png')
 }
 
 export default coloursImages;

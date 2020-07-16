@@ -1,21 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { globalStyles } from '../styles/global';
 
 export default function Deck(props) {
     return(
-        <View style={StyleSheet.deck}>
-            <View style={StyleSheet.deckContent}>
-                { props.children }
-            </View>
+        <View style={globalStyles.container}>
+            { props.children }
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-    deck: {
-
-    },
-    deckContent: {
-        
-    }
-})

@@ -20,7 +20,7 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks }) {
         axios.post('http://localhost:8080/vocabulary', {
             deck: `${deckName}`,
             id: uuid(),
-            deckImg: '',
+            deckImg: 'default',
             words: wordList
         })
         .then(_res => getDecks())
@@ -39,31 +39,31 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks }) {
                 style={globalStyles.text} 
                 placeholder='New Word' 
                 autoCapitalize='none'
-                onChangeText={text => setWord({wordId: uuid(), word: text, wordImg: ''})}
+                onChangeText={text => setWord({wordId: uuid(), word: text, wordImg: 'default'})}
             />
             <TextInput 
                 style={globalStyles.text} 
                 placeholder='New Word' 
                 autoCapitalize='none'
-                onChangeText={text => setWord2({wordId: uuid(), word: text, wordImg: ''})}
+                onChangeText={text => setWord2({wordId: uuid(), word: text, wordImg: 'default'})}
             />
             <TextInput 
                 style={globalStyles.text} 
                 placeholder='New Word' 
                 autoCapitalize='none'
-                onChangeText={text => setWord3({wordId: uuid(), word: text, wordImg: ''})}
+                onChangeText={text => setWord3({wordId: uuid(), word: text, wordImg: 'default'})}
             />
             <TextInput 
                 style={globalStyles.text} 
                 placeholder='New Word' 
                 autoCapitalize='none'
-                onChangeText={text => setWord4({wordId: uuid(), word: text, wordImg: ''})}
+                onChangeText={text => setWord4({wordId: uuid(), word: text, wordImg: 'default'})}
             />
             <TextInput 
                 style={globalStyles.text} 
                 placeholder='New Word' 
                 autoCapitalize='none'
-                onChangeText={text => setWord5({wordId: uuid(), word: text, wordImg: ''})}
+                onChangeText={text => setWord5({wordId: uuid(), word: text, wordImg: 'default'})}
             />
             <TouchableOpacity 
                 style={globalStyles.container} 

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, Image, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
 import ModalForm from '../components/ModalForm';
 import ModalEdit from '../components/ModalEdit';
 import DeckOptions from '../components/DeckOptions';
+import animalImages from '../assets/images/animals/animalImages';
+import coloursImages from '../assets/images/colours/coloursImages';
+import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
+import defaultImages from '../assets/images/defaultImages';
 
 export default function Decks({ navigation }) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -49,35 +53,40 @@ export default function Decks({ navigation }) {
                     : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} editStatus={editStatus} setEditStatus={setEditStatus}/>
                 }
             </Modal>
-            <Icon name='ios-add-circle' type='ionicon' color='#f50' onPress={() => {setModalOpen(!modalOpen)}} />
+            <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen)}} />
             <FlatList 
                 data={decks}
                 renderItem={({ item }) => (
-                    <TouchableOpacity 
-                        key={item.id}
-                        onPress={() => navigation.navigate('Play', item)}
-                        onLongPress={() => {
-                            setSelectedDeck(item.id);
-                            setEditStatus(!editStatus);
-                            setSelectedDeckData(item);
-                        }}
-                    >
-                        <Deck>
-                            <Text style={globalStyles.text}>{item.deck}</Text>
-                            {
-                                // show additional options to edit and delete on longpress
-                                item.id === selectedDeck && editStatus ? 
-                                <DeckOptions 
-                                    toEditDeck={selectedDeck} 
-                                    deleteDeck={deleteDeck} 
-                                    setSelectedDeck={setSelectedDeck}
-                                    setModalOpen={setModalOpen}
-                                    modalOpen={modalOpen}
-                                />
-                                : null
-                            }
-                        </Deck>
-                    </TouchableOpacity>
+                    <ScrollView>
+                        <TouchableOpacity 
+                            key={item.id}
+                            onPress={() => navigation.navigate('Play', item)}
+                            onLongPress={() => {
+                                setSelectedDeck(item.id);
+                                setEditStatus(!editStatus);
+                                setSelectedDeckData(item);
+                            }}
+                        >
+                                <Deck>
+                                    <Text style={globalStyles.text}>{item.deck}</Text>
+                                    <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
+                                    {
+                                        // show additional options to edit and delete on longpress
+                                        item.id === selectedDeck && editStatus ? 
+                                        <DeckOptions 
+                                            toEditDeck={selectedDeck} 
+                                            deleteDeck={deleteDeck} 
+                                            setSelectedDeck={setSelectedDeck}
+                                            setModalOpen={setModalOpen}
+                                            modalOpen={modalOpen}
+                                            setEditStatus={setEditStatus}
+                                            editStatus={editStatus}
+                                        />
+                                        : null
+                                    }
+                                </Deck>
+                        </TouchableOpacity>
+                    </ScrollView>
                 )}
             />
         </View>
