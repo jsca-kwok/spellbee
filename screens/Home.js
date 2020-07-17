@@ -1,21 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Fade } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 
 export default function Home({ navigation }) {
 
+    // go to 'Decks' screen and pass in navigation prop
     const startGameHandler = () => {
-        // go to 'Decks' screen and pass in navigation prop
         navigation.navigate('Decks', {navigation});
     }
 
+    // generate random game tip
+    const gameTip = ['Tip: Long press on a vocab deck to edit or delete', 'Tip: Add your own vocab decks', `Tip: Don't forget to rest your eyes`];
+    const index = Math.floor(Math.random()*3);
+
     return (
         <View style={globalStyles.container}>
-            <Text style={globalStyles.text}>Logged in!</Text>
-            <Text style={styles.tip}>Tip: Long press on a vocab deck to edit or delete</Text>
-            <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
-                <Text style={globalStyles.text}>START GAME</Text>
-            </TouchableOpacity>
+            <Animatable.Text style={globalStyles.text} animation='flash' direction='alternate'>Logged in!</Animatable.Text>
+            <Text style={styles.tip}>{gameTip[index]}</Text>
+            <Animatable.View animation='pulse' iterationCount='infinite'>
+                <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
+                    <Text style={globalStyles.text}>START GAME</Text>
+                </TouchableOpacity>
+            </Animatable.View>
         </View>
     );
 }

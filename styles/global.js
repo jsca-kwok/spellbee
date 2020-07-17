@@ -17,8 +17,13 @@ export const globalStyles = StyleSheet.create({
         height: 140
     },
     input: {
-        padding: 40,
+        padding: 10,
+        margin: 15,
         fontSize: 20,
-        color: '#333'
+        color: '#333',
+        backgroundColor: '#f5f5f5',
+        borderRadius: 10,
+        width: '90%',
+        textAlign: 'center'
     }
 })

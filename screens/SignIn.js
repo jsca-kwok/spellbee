@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Google from 'expo-google-app-auth';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
-import { globalStyles } from '../styles/global';
+import * as Animatable from 'react-native-animatable';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import Home from './Home';
 const googleSignIn = require('../assets/images/icons/googleSignIn.png');
 const logo = require('../assets/images/icons/logo.png');
@@ -28,7 +28,7 @@ export default function SignIn({ navigation }) {
 
     return (
         <View style={styles.screenContainer}>
-            <Image style={styles.logoImg} source={logo} />
+            <Animatable.Image animation='flipInY' style={styles.logoImg} source={logo} />
             <Text style={styles.logoText}>SpellBee</Text>
         {
             !signedIn ? 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Text, View, FlatList, TouchableOpacity, Modal, Image, ScrollView, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
 import ModalForm from '../components/ModalForm';
@@ -49,7 +50,7 @@ export default function Decks({ navigation }) {
         .then(_res => {
             getDecks();
             setSelectedDeckData(null);
-            setEditStatus(!editStatus);
+            setEditStatus(false);
         })
         .catch(err => console.log(err));
     }
@@ -60,45 +61,47 @@ export default function Decks({ navigation }) {
                 {
                     // if edit button clicked and select data is ready, render ModalEdit
                     !editStatus && selectedDeckData === null ? 
-                    <ModalForm setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} editStatus={editStatus} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} /> 
-                    : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} editStatus={editStatus} setEditStatus={setEditStatus}/>
+                    <ModalForm setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} /> 
+                    : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus}/>
                 }
             </Modal>
             <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
-            <FlatList 
-                data={decks}
-                renderItem={({ item }) => (
-                    <ScrollView>
-                        <TouchableOpacity 
-                            key={item.id}
-                            onPress={() => navigation.navigate('Play', item)}
-                            onLongPress={() => {
-                                setSelectedDeck(item.id);
-                                setEditStatus(!editStatus);
-                                setSelectedDeckData(item);
-                        }}>
-                                <Deck>
-                                    <Text style={globalStyles.text}>{item.deck}</Text>
-                                    <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
-                                    {
-                                        // show additional options to edit and delete on longpress
-                                        item.id === selectedDeck && editStatus ? 
-                                        <DeckOptions 
-                                            toEditDeck={selectedDeck} 
-                                            confirmDeleteDeck={confirmDeleteDeck} 
-                                            setSelectedDeck={setSelectedDeck}
-                                            setModalOpen={setModalOpen}
-                                            modalOpen={modalOpen}
-                                            setEditStatus={setEditStatus}
-                                            editStatus={editStatus}
-                                        />
-                                        : null
-                                    }
-                                </Deck>
-                        </TouchableOpacity>
-                    </ScrollView>
-                )}
-            />
+            <Animatable.View animation='bounceIn'>
+                <FlatList 
+                    data={decks}
+                    renderItem={({ item }) => (
+                        <ScrollView>
+                            <TouchableOpacity 
+                                key={item.id}
+                                onPress={() => navigation.navigate('Play', item)}
+                                onLongPress={() => {
+                                    setSelectedDeck(item.id);
+                                    setEditStatus(!editStatus);
+                                    setSelectedDeckData(item);
+                            }}>
+                                    <Deck>
+                                        <Text style={globalStyles.text}>{item.deck}</Text>
+                                        <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
+                                        {
+                                            // show additional options to edit and delete on longpress
+                                            item.id === selectedDeck && editStatus ? 
+                                            <DeckOptions 
+                                                toEditDeck={selectedDeck} 
+                                                confirmDeleteDeck={confirmDeleteDeck} 
+                                                setSelectedDeck={setSelectedDeck}
+                                                setModalOpen={setModalOpen}
+                                                modalOpen={modalOpen}
+                                                setEditStatus={setEditStatus}
+                                                editStatus={editStatus}
+                                            />
+                                            : null
+                                        }
+                                    </Deck>
+                            </TouchableOpacity>
+                        </ScrollView>
+                    )}
+                />
+            </Animatable.View>
         </View>
     );
 }

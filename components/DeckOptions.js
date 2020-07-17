@@ -27,6 +27,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button: {
-        padding: 5
+        paddingVertical: 15,
+        marginBottom: 15,
+        width: 120,
+        backgroundColor: '#f5f5f5',
+        borderRadius: 10,
+        shadowColor: 'black',
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        elevation: 5,
+        alignItems: 'center'
     }
 })
