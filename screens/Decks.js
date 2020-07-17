@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, Image, ScrollView, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
@@ -27,6 +27,20 @@ export default function Decks({ navigation }) {
         .catch(err => console.log(err));
     }
 
+    // confirm delete deck
+    const confirmDeleteDeck = (id) => {
+        Alert.alert("Careful!", "Are you sure you want to delete?", [
+            {
+                text: "Yes",
+                onPress: () => {deleteDeck(id)}
+            },
+            {
+                text: "No way!",
+                style: "cancel"
+            }
+        ])
+    }
+
     // delete vocab deck
     const deleteDeck = (idToDelete) => {
         axios.delete('http://localhost:8080/vocabulary', {
@@ -49,7 +63,7 @@ export default function Decks({ navigation }) {
                 {
                     // if edit button clicked and select data is ready, render ModalEdit
                     !editStatus && selectedDeckData === null ? 
-                    <ModalForm setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} /> 
+                    <ModalForm setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} editStatus={editStatus} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} /> 
                     : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} editStatus={editStatus} setEditStatus={setEditStatus}/>
                 }
             </Modal>
@@ -75,7 +89,7 @@ export default function Decks({ navigation }) {
                                         item.id === selectedDeck && editStatus ? 
                                         <DeckOptions 
                                             toEditDeck={selectedDeck} 
-                                            deleteDeck={deleteDeck} 
+                                            confirmDeleteDeck={confirmDeleteDeck} 
                                             setSelectedDeck={setSelectedDeck}
                                             setModalOpen={setModalOpen}
                                             modalOpen={modalOpen}

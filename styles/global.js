@@ -5,6 +5,7 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
         padding: 20,
         alignItems: 'center',
+        backgroundColor: '#F2E155'
     },
     text: {
         fontFamily: 'Varela',
@@ -17,6 +18,7 @@ export const globalStyles = StyleSheet.create({
     },
     input: {
         padding: 40,
-        fontSize: 18
+        fontSize: 20,
+        color: '#333'
     }
 })

@@ -10,7 +10,7 @@ const screens = {
     SignIn: {
         screen: SignIn,
         navigationOptions: {
-            title: 'Sign In'
+            title: 'SpellBee'
         }
     },
     Home: {
@@ -36,7 +36,7 @@ const screens = {
 const Stack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTintColor: '#444',
-        headerStyle: { backgroundColor: '#F2E155' }
+        headerStyle: { backgroundColor: '#f5f5f5' }
     }
 });
 

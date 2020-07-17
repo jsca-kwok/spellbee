@@ -4,7 +4,7 @@ import { globalStyles } from '../styles/global';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 
-export default function ModalForm({ setModalOpen, modalStatus, getDecks }) {
+export default function ModalForm({ setModalOpen, modalStatus, getDecks, editStatus, setEditStatus, setSelectedDeckData }) {
     const [deckName, setDeckName] = useState('');
     const [word, setWord] = useState({});
     const [word2, setWord2] = useState({});
@@ -28,58 +28,90 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks }) {
     }
 
     return(
-        <View style={globalStyles.container}>
-            <TextInput 
-                style={globalStyles.text} 
-                placeholder='Vocabulary Deck Name' 
-                autoCapitalize='none'
-                onChangeText={text => {setDeckName(text)}}
-            />
-            <TextInput 
-                style={globalStyles.text} 
-                placeholder='New Word' 
-                autoCapitalize='none'
-                onChangeText={text => setWord({wordId: uuid(), word: text, wordImg: 'default'})}
-            />
-            <TextInput 
-                style={globalStyles.text} 
-                placeholder='New Word' 
-                autoCapitalize='none'
-                onChangeText={text => setWord2({wordId: uuid(), word: text, wordImg: 'default'})}
-            />
-            <TextInput 
-                style={globalStyles.text} 
-                placeholder='New Word' 
-                autoCapitalize='none'
-                onChangeText={text => setWord3({wordId: uuid(), word: text, wordImg: 'default'})}
-            />
-            <TextInput 
-                style={globalStyles.text} 
-                placeholder='New Word' 
-                autoCapitalize='none'
-                onChangeText={text => setWord4({wordId: uuid(), word: text, wordImg: 'default'})}
-            />
-            <TextInput 
-                style={globalStyles.text} 
-                placeholder='New Word' 
-                autoCapitalize='none'
-                onChangeText={text => setWord5({wordId: uuid(), word: text, wordImg: 'default'})}
-            />
-            <TouchableOpacity 
-                style={globalStyles.container} 
-                onPress={() => {
-                    addNewDeck();
-                    setModalOpen(!modalStatus);
-                }}
-            >
-                <Text style={globalStyles.container}>SAVE</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-                style={globalStyles.container} 
-                onPress={() => {setModalOpen(!modalStatus)}}
-            >
-                <Text style={globalStyles.container}>CANCEL</Text>
-            </TouchableOpacity>
+        <View style={styles.pageContainer}>
+            <View style={styles.inputContainer}>
+                <TextInput 
+                    style={styles.input} 
+                    placeholder='Vocabulary Deck Name' 
+                    autoCapitalize='none'
+                    onChangeText={text => {setDeckName(text)}}
+                />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder='New Word' 
+                    autoCapitalize='none'
+                    onChangeText={text => setWord({wordId: uuid(), word: text, wordImg: 'default'})}
+                />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder='New Word' 
+                    autoCapitalize='none'
+                    onChangeText={text => setWord2({wordId: uuid(), word: text, wordImg: 'default'})}
+                />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder='New Word' 
+                    autoCapitalize='none'
+                    onChangeText={text => setWord3({wordId: uuid(), word: text, wordImg: 'default'})}
+                />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder='New Word' 
+                    autoCapitalize='none'
+                    onChangeText={text => setWord4({wordId: uuid(), word: text, wordImg: 'default'})}
+                />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder='New Word' 
+                    autoCapitalize='none'
+                    onChangeText={text => setWord5({wordId: uuid(), word: text, wordImg: 'default'})}
+                />
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity  
+                    style={styles.button}
+                    onPress={() => {
+                        addNewDeck();
+                        setModalOpen(!modalStatus);
+                }}>
+                    <Text style={globalStyles.text}>SAVE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    style={styles.button}
+                    onPress={() => {
+                        setModalOpen(!modalStatus);
+                        setEditStatus(!editStatus);
+                        setSelectedDeckData(null);
+                }}>
+                    <Text style={globalStyles.text}>CANCEL</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    pageContainer: {
+        flex: 1,
+        backgroundColor: '#F2E155',
+        justifyContent: 'space-between'
+    },
+    inputContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 60
+    },
+    input: {
+        fontSize: 20,
+        fontFamily: 'Varela',
+        padding: 5
+    },
+    buttonContainer: {
+       justifyContent: 'flex-end',
+       alignItems: 'center',
+       marginBottom: 50
+    },
+    button: {
+        padding: 5
+    }
+})

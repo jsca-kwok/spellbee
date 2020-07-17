@@ -45,23 +45,19 @@ export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSele
                 )}
             />
             <TouchableOpacity 
-                style={globalStyles.container} 
                 onPress={() => {
                     addNewDeck();
                     setModalOpen(!modalStatus);
-                }}
-            >
-                <Text style={globalStyles.container}>SAVE</Text>
+            }}>
+                <Text style={globalStyles.text}>SAVE</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-                style={globalStyles.container} 
                 onPress={() => {
                     setModalOpen(!modalStatus);
                     setEditStatus(!editStatus);
                     setSelectedDeckData(null);
-                }}
-            >
-                <Text style={globalStyles.container}>CANCEL</Text>
+            }}>
+                <Text style={globalStyles.text}>CANCEL</Text>
             </TouchableOpacity>
         </View>
     )
