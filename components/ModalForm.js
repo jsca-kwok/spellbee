@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
@@ -44,14 +44,16 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks, editSta
                     autoCapitalize='none'
                     onChangeText={text => {setDeckName(text)}}
                 />
-                {
-                    inputFields.map((_field, i) => {
-                        return(
-                            <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
-                        )
-                    })
-                }
-                <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
+                <ScrollView>
+                    {
+                        inputFields.map((_field, i) => {
+                            return(
+                                <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                            )
+                        })
+                    }
+                    <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
+                </ScrollView>
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity  
@@ -87,12 +89,13 @@ const styles = StyleSheet.create({
     inputContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 60
+        marginTop: 60, 
+        flex: 1
     },
     input: {
         fontSize: 20,
         fontFamily: 'Varela',
-        padding: 5
+        paddingVertical: 5,
     },
     buttonContainer: {
        justifyContent: 'flex-end',
@@ -100,6 +103,6 @@ const styles = StyleSheet.create({
        marginBottom: 50
     },
     button: {
-        padding: 5
+        paddingVertical: 5
     }
 })

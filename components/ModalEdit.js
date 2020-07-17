@@ -8,7 +8,15 @@ import { globalStyles } from '../styles/global';
 export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSelectedDeckData, selectedDeckData, editStatus, setEditStatus }) {
     const [deckName, setDeckName] = useState(`${selectedDeckData.deck}`);
     const [inputFields, setInputFields] = useState(selectedDeckData.words);
-    const [newInputFields, setNewInputFields] = useState([{ wordId: uuid(), word: null, wordImg: 'default' }]);
+    const [newInputFields, setNewInputFields] = useState([]);
+
+    // cancel changes - revert back to prev state
+    const cancelChanges = () => {
+        setDeckName(`${selectedDeckData.deck}`);
+        setInputFields(selectedDeckData.words);
+        setNewInputFields([]);
+        getDecks();
+    }
 
     // add new input field
     const addInputField = () => {
@@ -85,7 +93,7 @@ export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSele
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity 
-                    styles={styles.button}
+                    style={styles.button}
                     onPress={() => {
                         addNewDeck();
                         setModalOpen(!modalStatus);
@@ -95,11 +103,12 @@ export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSele
                     <Text style={globalStyles.text}>SAVE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                    styles={styles.button}
+                    style={styles.button}
                     onPress={() => {
                         setModalOpen(!modalStatus);
                         setEditStatus(!editStatus);
                         setSelectedDeckData(null);
+                        cancelChanges();
                 }}>
                     <Text style={globalStyles.text}>CANCEL</Text>
                 </TouchableOpacity>
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 20,
         fontFamily: 'Varela',
-        padding: 5
+        paddingVertical: 5
     },
     buttonContainer: {
        justifyContent: 'flex-end',
@@ -131,6 +140,6 @@ const styles = StyleSheet.create({
        marginBottom: 50
     },
     button: {
-        padding: 5
+        paddingVertical: 5
     }
 })
