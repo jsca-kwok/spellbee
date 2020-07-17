@@ -7,7 +7,6 @@ import animalImages from '../assets/images/animals/animalImages';
 import coloursImages from '../assets/images/colours/coloursImages';
 import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
 import defaultImages from '../assets/images/defaultImages';
-import gameBackground from '../assets/images/background/gameBackground.jpg';
 
 export default function Play({ navigation }) {
     const [inputValue, setInputValue] = useState('');
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
     playScene: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#F2E155'
+        backgroundColor: '#7ACDF2'
     },
     imageContainer: {
         flex: 1,
