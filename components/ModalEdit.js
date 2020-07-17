@@ -43,6 +43,9 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
     const addNewDeck = () => {
         const newWords = [...inputFields];
         newWords.push(...newInputFields);
+        // filter out empty words from being added into db
+        const realWords = newWords.filter(word => word.word !== null && word.word !== '');
+        setInputFields(realWords);
         if (!deckName) {
             Alert.alert("Oops!", "Missing a vocabulary deck name", [
                 {
@@ -50,7 +53,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     style: "cancel"
                 }
             ])
-        } else if (inputFields.length < 5) {
+        } else if (realWords.length < 5) {
             Alert.alert("Oops!", "Please add at least 5 words", [
                 {
                     text: "Got it",
@@ -62,7 +65,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                 deck: `${deckName}`,
                 id: `${selectedDeckData.id}`,
                 deckImg: 'default',
-                words: newWords
+                words: realWords
             })
             .then(_res => {
                 getDecks();
@@ -88,16 +91,19 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     {/* lists all current words in vocab deck */}
                     {
                         selectedDeckData.words.map((item, i) => {
-                            return (
-                                <TextInput 
-                                    key={item.wordId}
-                                    style={styles.input}
-                                    placeholder={item.word}
-                                    autoCapitalize='none'
-                                    onChangeText={text => {changeWord(i, text)}}
-                                    defaultValue={item.word}
-                                />
-                            )
+                            // only show input if input field is not empty
+                            if (item.word !== null && item.word!== '') {
+                                return (
+                                    <TextInput 
+                                        key={item.wordId}
+                                        style={styles.input}
+                                        placeholder={item.word}
+                                        autoCapitalize='none'
+                                        onChangeText={text => {changeWord(i, text)}}
+                                        defaultValue={item.word}
+                                    />
+                                )
+                            }
                         })
                     }
                     {

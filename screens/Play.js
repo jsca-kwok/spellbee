@@ -102,7 +102,7 @@ export default function Play({ navigation }) {
                     placeholder='Tap here to spell it!' 
                     autoCapitalize='none'
                     autoCompleteType='off'
-                    autoCorrect='false'
+                    autoCorrect={false}
                     ref={textInput}
                     style={globalStyles.input}
                 /> : null
