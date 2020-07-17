@@ -12,6 +12,7 @@ export default function Home({ navigation }) {
     return (
         <View style={globalStyles.container}>
             <Text style={globalStyles.text}>Logged in!</Text>
+            <Text style={styles.tip}>Tip: Long press on a vocab deck to edit or delete</Text>
             <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
                 <Text style={globalStyles.text}>START GAME</Text>
             </TouchableOpacity>
@@ -22,7 +23,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     startButton: {
         backgroundColor: '#f5f5f5',
-        margin: 40,
+        margin: 25,
         padding: 15,
         borderRadius: 10,
         shadowColor: 'black',
@@ -30,5 +31,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         elevation: 5
+    },
+    tip: {
+        fontFamily: 'Varela',
+        fontSize: 14,
+        marginTop: 15
     }
 })

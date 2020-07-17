@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
-import { globalStyles } from '../styles/global';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import axios from 'axios';
+import { Icon } from 'react-native-elements';
+import { globalStyles } from '../styles/global';
 import { v4 as uuid } from 'uuid';
 
 export default function ModalForm({ setModalOpen, modalStatus, getDecks, editStatus, setEditStatus, setSelectedDeckData }) {
     const [deckName, setDeckName] = useState('');
-    const [word, setWord] = useState({});
-    const [word2, setWord2] = useState({});
-    const [word3, setWord3] = useState({});
-    const [word4, setWord4] = useState({});
-    const [word5, setWord5] = useState({});
-    const [wordList, setWordList] = useState([])
+    const [inputFields, setInputFields] = useState([{ wordId: uuid(), word: null, wordImg: 'default' }]);
+    
+    // add new input field
+    const addInputField = () => {
+        const values = [...inputFields];
+        values.push({ wordId: uuid(), word: null, wordImg: 'default' });
+        setInputFields(values);
+    }
+
+    // collect text input values 
+    const addWord = (i, text) => {
+        const values = [...inputFields];
+        values[i].word = text;
+        setInputFields(values);
+    }
 
     // add new vocabulary deck to db
     const addNewDeck = () => {
-        wordList.push(word, word2, word3, word4, word5);
-        setWordList(wordList);
         axios.post('http://localhost:8080/vocabulary', {
             deck: `${deckName}`,
             id: uuid(),
             deckImg: 'default',
-            words: wordList
+            words: inputFields
         })
         .then(_res => getDecks())
         .catch(err => console.log(err));
@@ -36,36 +44,14 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks, editSta
                     autoCapitalize='none'
                     onChangeText={text => {setDeckName(text)}}
                 />
-                <TextInput 
-                    style={styles.input} 
-                    placeholder='New Word' 
-                    autoCapitalize='none'
-                    onChangeText={text => setWord({wordId: uuid(), word: text, wordImg: 'default'})}
-                />
-                <TextInput 
-                    style={styles.input} 
-                    placeholder='New Word' 
-                    autoCapitalize='none'
-                    onChangeText={text => setWord2({wordId: uuid(), word: text, wordImg: 'default'})}
-                />
-                <TextInput 
-                    style={styles.input} 
-                    placeholder='New Word' 
-                    autoCapitalize='none'
-                    onChangeText={text => setWord3({wordId: uuid(), word: text, wordImg: 'default'})}
-                />
-                <TextInput 
-                    style={styles.input} 
-                    placeholder='New Word' 
-                    autoCapitalize='none'
-                    onChangeText={text => setWord4({wordId: uuid(), word: text, wordImg: 'default'})}
-                />
-                <TextInput 
-                    style={styles.input} 
-                    placeholder='New Word' 
-                    autoCapitalize='none'
-                    onChangeText={text => setWord5({wordId: uuid(), word: text, wordImg: 'default'})}
-                />
+                {
+                    inputFields.map((_field, i) => {
+                        return(
+                            <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                        )
+                    })
+                }
+                <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity  

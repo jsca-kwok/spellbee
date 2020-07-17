@@ -22,13 +22,13 @@ const screens = {
     Decks: {
         screen: Decks,
         navigationOptions: {
-            title: 'Vocabulary Decks'
+            title: 'SpellBee'
         }
     },
     Play: {
         screen: Play,
         navigationOptions: {
-            title: 'Play'
+            title: 'SpellBee'
         }
     }
 }

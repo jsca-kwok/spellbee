@@ -56,10 +56,7 @@ export default function Decks({ navigation }) {
     
     return (
         <View style={globalStyles.container}>
-            <Modal
-                animationType='slide'
-                visible={modalOpen}
-            >
+            <Modal animationType='slide'visible={modalOpen}>
                 {
                     // if edit button clicked and select data is ready, render ModalEdit
                     !editStatus && selectedDeckData === null ? 
@@ -67,7 +64,7 @@ export default function Decks({ navigation }) {
                     : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} modalStatus={modalOpen} getDecks={getDecks} editStatus={editStatus} setEditStatus={setEditStatus}/>
                 }
             </Modal>
-            <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen)}} />
+            <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
             <FlatList 
                 data={decks}
                 renderItem={({ item }) => (
@@ -79,8 +76,7 @@ export default function Decks({ navigation }) {
                                 setSelectedDeck(item.id);
                                 setEditStatus(!editStatus);
                                 setSelectedDeckData(item);
-                            }}
-                        >
+                        }}>
                                 <Deck>
                                     <Text style={globalStyles.text}>{item.deck}</Text>
                                     <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
