@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
@@ -24,18 +24,26 @@ export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSele
         setNewInputFields(values);
     }
 
+    // change word
+    const changeWord = (i, text) => {
+        const values = [...inputFields];
+        values[i].word = text;
+        setInputFields(values);
+    }
+
     // add new vocabulary deck to db
     const addNewDeck = () => {
         const newWords = [...inputFields];
         newWords.push(...newInputFields);
-        console.log(newWords);
         axios.put('http://localhost:8080/vocabulary', {
             deck: `${deckName}`,
             id: `${selectedDeckData.id}`,
             deckImg: 'default',
             words: newWords
         })
-        .then(_res => getDecks())
+        .then(_res => {
+            getDecks();
+        })
         .catch(err => console.log(err));
     }
 
@@ -49,29 +57,31 @@ export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSele
                     onChangeText={text => {setDeckName(text)}}
                     defaultValue={selectedDeckData.deck}
                 />
-                {/* lists all current words in vocab deck */}
-                {
-                    selectedDeckData.words.map((item, i) => {
-                        return (
-                            <TextInput 
-                                key={item.wordId}
-                                style={styles.input}
-                                placeholder={item.word}
-                                autoCapitalize='none'
-                                onChangeText={text => {addWord(i, text)}}
-                                defaultValue={item.word}
-                            />
-                        )
-                    })
-                }
-                {
-                    newInputFields.map((field, i) => {
-                        return(
-                            <TextInput key={field.wordId} style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
-                        )
-                    })
-                }
-                <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
+                <ScrollView>
+                    {/* lists all current words in vocab deck */}
+                    {
+                        selectedDeckData.words.map((item, i) => {
+                            return (
+                                <TextInput 
+                                    key={item.wordId}
+                                    style={styles.input}
+                                    placeholder={item.word}
+                                    autoCapitalize='none'
+                                    onChangeText={text => {changeWord(i, text)}}
+                                    defaultValue={item.word}
+                                />
+                            )
+                        })
+                    }
+                    {
+                        newInputFields.map((field, i) => {
+                            return(
+                                <TextInput key={field.wordId} style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                            )
+                        })
+                    }
+                    <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
+                </ScrollView>
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity 
@@ -79,6 +89,8 @@ export default function ModalEdit({ setModalOpen, modalStatus, getDecks, setSele
                     onPress={() => {
                         addNewDeck();
                         setModalOpen(!modalStatus);
+                        setEditStatus(!editStatus);
+                        setSelectedDeckData(null);
                 }}>
                     <Text style={globalStyles.text}>SAVE</Text>
                 </TouchableOpacity>
@@ -105,7 +117,8 @@ const styles = StyleSheet.create({
     inputContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 60
+        marginTop: 60,
+        flex: 1
     },
     input: {
         fontSize: 20,

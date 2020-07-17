@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, Image, ScrollView, Alert } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Modal, Image, ScrollView, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';

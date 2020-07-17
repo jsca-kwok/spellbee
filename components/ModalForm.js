@@ -59,6 +59,8 @@ export default function ModalForm({ setModalOpen, modalStatus, getDecks, editSta
                     onPress={() => {
                         addNewDeck();
                         setModalOpen(!modalStatus);
+                        setEditStatus(!editStatus);
+                        setSelectedDeckData(null);
                 }}>
                     <Text style={globalStyles.text}>SAVE</Text>
                 </TouchableOpacity>

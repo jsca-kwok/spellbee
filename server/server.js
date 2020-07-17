@@ -53,7 +53,7 @@ app.delete('/vocabulary', (req, res) => {
 
 // update specified deck
 app.put('/vocabulary', (req, res) => {
-    VocabDeck.updateOne({ id: req.body.id }, { deck: req.body.deck }, {deckImg: req.body.deckImg }, { words: req.body.words } , function(err) {
+    VocabDeck.findOneAndUpdate({ id: req.body.id }, { deck: req.body.deck, deckImg: req.body.deckImg, words: req.body.words } , function(err) {
         if (err) {
             console.log(err);
         }
