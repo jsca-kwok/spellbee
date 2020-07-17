@@ -14,7 +14,8 @@ export const globalStyles = StyleSheet.create({
     images: {
         resizeMode: 'contain',
         width: 140,
-        height: 140
+        height: 140,
+        marginTop: 5
     },
     input: {
         padding: 10,
