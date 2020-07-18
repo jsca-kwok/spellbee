@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
-import { globalStyles } from '../styles/global';
 import { v4 as uuid } from 'uuid';
+import { globalStyles } from '../styles/global';
+import ImagePick from '../components/ImagePick';
 
 export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSelectedDeckData }) {
     const [deckName, setDeckName] = useState('');
@@ -60,14 +61,17 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
 
     return(
         <View style={styles.pageContainer}>
-            <View style={styles.inputContainer}>
+            <View style={styles.deckContainer}>
+                <ImagePick deckImg={'default'} />
                 <TextInput 
                     style={styles.deckInput} 
-                    placeholder='Vocabulary Deck Name' 
+                    placeholder='Vocabulary Deck' 
                     autoCapitalize='none'
                     onChangeText={text => {setDeckName(text)}}
                 />
-                <ScrollView>
+            </View>
+            <View style={styles.inputContainer}>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     {
                         inputFields.map((_field, i) => {
                             return(
@@ -103,14 +107,19 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
 const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
-        backgroundColor: '#F2E155',
-        justifyContent: 'space-between'
+        backgroundColor: '#F2E155'
+    },
+    deckContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 50,
     },
     inputContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 50, 
-        flex: 1
+        height: 370,
+        marginTop: 15
     },
     deckInput: {
         backgroundColor: '#F2EF9A',
@@ -125,8 +134,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'Varela',
         padding: 15,
-        marginBottom: 15,
-        width: '90%'
+        width: 240,
+        height: 50
     },
     input: {
         fontSize: 20,

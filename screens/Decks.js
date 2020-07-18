@@ -70,7 +70,7 @@ export default function Decks({ navigation }) {
                 <FlatList 
                     data={decks}
                     renderItem={({ item }) => (
-                        <ScrollView>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <TouchableOpacity 
                                 key={item.id}
                                 onPress={() => navigation.navigate('Play', item)}

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert 
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
+import ImagePick from '../components/ImagePick';
 import { globalStyles } from '../styles/global';
 
 export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData, selectedDeckData, setEditStatus }) {
@@ -79,7 +80,8 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
 
     return(
         <View style={styles.pageContainer}>
-            <View style={styles.inputContainer}>
+            <View style={styles.deckContainer}>
+                <ImagePick deckImg={selectedDeckData.deckImg} />
                 <TextInput 
                     style={styles.deckInput} 
                     placeholder={selectedDeckData.deck}
@@ -87,7 +89,9 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     onChangeText={text => {setDeckName(text)}}
                     defaultValue={selectedDeckData.deck}
                 />
-                <ScrollView>
+            </View>
+            <View style={styles.inputContainer}>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     {/* lists all current words in vocab deck */}
                     {
                         selectedDeckData.words.map((item, i) => {
@@ -143,18 +147,23 @@ const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
         backgroundColor: '#F2E155',
-        justifyContent: 'space-between'
+    },
+    deckContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 50,
     },
     inputContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 50,
-        flex: 1
+        height: 370,
+        marginTop: 15
     },
     deckInput: {
         backgroundColor: '#F2EF9A',
+        justifyContent: 'center',
         textAlign: 'center',
-        alignItems: 'center',
         borderRadius: 10,
         shadowColor: 'black',
         shadowRadius: 2,
@@ -164,8 +173,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'Varela',
         padding: 15,
-        marginBottom: 15,
-        width: '90%'
+        width: 240,
+        height: 50
     },
     input: {
         fontSize: 20,

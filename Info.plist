@@ -1,0 +1,13 @@
+<plist version="1.0">
+  <dict>
+    ...
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>SpellBee would like access to your photo gallery</string>
+    <key>NSCameraUsageDescription</key>
+    <string>SpellBee would like to use your camera</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>SpellBee would like to save photos to your photo gallery</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>SpellBee would like to use your microphone (for videos)</string>
+  </dict>
+</plist>
