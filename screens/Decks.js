@@ -81,7 +81,11 @@ export default function Decks({ navigation }) {
                             }}>
                                     <Deck>
                                         <Text style={globalStyles.text}>{item.deck}</Text>
-                                        <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
+                                        {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
+                                        {
+                                            item.deckImg.slice(0,4) === 'file' ? <Image style={globalStyles.images} source={{uri: item.deckImg}} />
+                                            : <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
+                                        }
                                         {
                                             // show additional options to edit and delete on longpress
                                             item.id === selectedDeck && editStatus ? 

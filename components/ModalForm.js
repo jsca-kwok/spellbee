@@ -9,6 +9,7 @@ import ImagePick from '../components/ImagePick';
 export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSelectedDeckData }) {
     const [deckName, setDeckName] = useState('');
     const [inputFields, setInputFields] = useState([{ wordId: uuid(), word: null, wordImg: 'default' }]);
+    const [deckImg, setDeckImg] = useState(null);
     
     // add new input field
     const addInputField = () => {
@@ -42,6 +43,22 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
                     style: "cancel"
                 }
             ])
+        // post user uploaded deckImg if available
+        } else if (deckImg) {
+            axios.post('http://localhost:8080/vocabulary', {
+                deck: `${deckName}`,
+                id: uuid(),
+                deckImg: deckImg,
+                words: inputFields
+            })
+            .then(_res => {
+                getDecks();
+                setModalOpen(false);
+                setEditStatus(false);
+                setSelectedDeckData(null);
+            })
+            .catch(err => console.log(err));
+        // post default deckImg if user does not select a deckImg
         } else {
             axios.post('http://localhost:8080/vocabulary', {
                 deck: `${deckName}`,
@@ -62,7 +79,7 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
     return(
         <View style={styles.pageContainer}>
             <View style={styles.deckContainer}>
-                <ImagePick deckImg={'default'} />
+                <ImagePick defaultDeckImg={'default'} deckImg={deckImg} setDeckImg={setDeckImg}/>
                 <TextInput 
                     style={styles.deckInput} 
                     placeholder='Vocabulary Deck' 
