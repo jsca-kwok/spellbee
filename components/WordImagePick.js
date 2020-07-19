@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import defaultImages from '../assets/images/defaultImages';
 
-export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
+export default function ImagePick({ defaultWordImg, index, addImage }) {
+    const [wordImg, setWordImg] = useState(null);
 
     const selectPicture = async() => {
         // confirm permission before opening gallery
@@ -18,23 +19,16 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
                 }
             ])
         }
-        setDeckImg(uri);
+        setWordImg(uri);
+        addImage(index, uri);
     }
-
-    // const takePicture = async() => {
-    //     await Permissions.askAsync(Permissions.CAMERA);
-    //     const { cancelled, uri } = await ImagePicker.launchCameraAsync({ allowsEditing: true });
-    //     if (!cancelled) {
-    //         setImage({ image: uri });
-    //     }
-    // }
 
     return(
         <TouchableOpacity onPress={selectPicture}>
             {/* set deckImage, use default if none are selected */}
             {
-                deckImg && deckImg.slice(0,4) === 'file' ? <Image style={styles.deckImg} source={{uri: deckImg}} />
-                : <Image style={styles.deckImg} source={defaultImages[defaultDeckImg]} />
+                wordImg && wordImg.slice(0,4) === 'file' ? <Image style={styles.deckImg} source={{uri: wordImg}} />
+                : <Image style={styles.deckImg} source={defaultImages[defaultWordImg]} />
             }
         </TouchableOpacity>
     )
@@ -44,6 +38,7 @@ const styles = StyleSheet.create({
     deckImg: {
         resizeMode: 'contain',
         width: 100,
+        height: 50,
         margin: 0,
         flex: 1
     }

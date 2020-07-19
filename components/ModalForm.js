@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Icon } from 'react-native-elements';
 import { v4 as uuid } from 'uuid';
 import { globalStyles } from '../styles/global';
-import ImagePick from '../components/ImagePick';
+import ImagePick from './ImagePick';
+import WordImagePick from './WordImagePick';
 
 export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSelectedDeckData }) {
     const [deckName, setDeckName] = useState('');
@@ -22,6 +23,13 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
     const addWord = (i, text) => {
         const values = [...inputFields];
         values[i].word = text;
+        setInputFields(values);
+    }
+
+    // collect images
+    const addImage = (i, wordImg) => {
+        const values = [...inputFields];
+        values[i].wordImg = wordImg;
         setInputFields(values);
     }
 
@@ -92,7 +100,10 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
                     {
                         inputFields.map((_field, i) => {
                             return(
-                                <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                                <View style={styles.wordContainer}>
+                                    <WordImagePick defaultWordImg={'default'} index={i} addImage={addImage}/> 
+                                    <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                                </View>
                             )
                         })
                     }
@@ -131,6 +142,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 50,
+    },
+    wordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     },
     inputContainer: {
         justifyContent: 'center',
