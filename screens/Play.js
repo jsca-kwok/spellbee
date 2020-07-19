@@ -5,6 +5,9 @@ import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 import SpellItem from '../components/SpellItem';
 import RoundEnd from '../components/RoundEnd';
+import animalImages from '../assets/images/animals/animalImages';
+import coloursImages from '../assets/images/colours/coloursImages';
+import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
 import defaultImages from '../assets/images/defaultImages';
 
 
@@ -81,7 +84,7 @@ export default function Play({ navigation }) {
                                     <SpellItem style={styles.spellItem}>
                                         {
                                             word.wordImg && word.wordImg.slice(0,4) === 'file' ? <Image style={styles.images} source={{uri: word.wordImg}} />
-                                            : <Image style={styles.images} source={defaultImages[word.wordImg]} />
+                                            : <Image style={styles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
                                         }
                                     </SpellItem>
                                 </TouchableOpacity>

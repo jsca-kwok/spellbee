@@ -30,11 +30,7 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
 
     return(
         <TouchableOpacity onPress={selectPicture}>
-            {/* set deckImage, use default if none are selected */}
-            {/* {
-                wordImg && wordImg.slice(0,4) === 'file' ? <Image style={styles.deckImg} source={{uri: wordImg}} />
-                : <Image style={styles.deckImg} source={defaultImages[defaultWordImg]} />
-            } */}
+            {/* set image based on condition, use default if none are selected. invoke this function right away */}
             {
                 (() => {
                     if (currentWordImg && currentWordImg.slice(0,4) === 'file') {
