@@ -82,7 +82,7 @@ export default function Play({ navigation }) {
                             <Animatable.View key={word.wordId} animation='pulse' iterationCount='infinite'>
                                 <TouchableOpacity onPress={() => {handlePress(word.word)}}>
                                     <SpellItem style={styles.spellItem}>
-                                        <Image style={globalStyles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
+                                        <Image style={styles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
                                     </SpellItem>
                                 </TouchableOpacity>
                             </Animatable.View>
@@ -119,6 +119,11 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#7ACDF2'
+    },
+    images:{
+        resizeMode: 'contain',
+        width: 140,
+        height: 140
     },
     imageContainer: {
         flex: 1,

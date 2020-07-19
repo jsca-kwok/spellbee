@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Text, View, FlatList, TouchableOpacity, Modal, Image, ScrollView, Alert } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Modal, Image, ScrollView, Alert, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
@@ -67,42 +67,41 @@ export default function Decks({ navigation }) {
             </Modal>
             <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
             <Animatable.View animation='bounceIn'>
-                <FlatList 
+                <FlatList   
+                    showsVerticalScrollIndicator={false} 
+                    numColumns={2}
                     data={decks}
                     renderItem={({ item }) => (
-                        <ScrollView showsVerticalScrollIndicator={false}>
-                            <TouchableOpacity 
-                                key={item.id}
-                                onPress={() => navigation.navigate('Play', item)}
-                                onLongPress={() => {
-                                    setSelectedDeck(item.id);
-                                    setEditStatus(!editStatus);
-                                    setSelectedDeckData(item);
-                            }}>
-                                    <Deck>
-                                        <Text style={globalStyles.text}>{item.deck}</Text>
-                                        {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
-                                        {
-                                            item.deckImg.slice(0,4) === 'file' ? <Image style={globalStyles.images} source={{uri: item.deckImg}} />
-                                            : <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
-                                        }
-                                        {
-                                            // show additional options to edit and delete on longpress
-                                            item.id === selectedDeck && editStatus ? 
-                                            <DeckOptions 
-                                                toEditDeck={selectedDeck} 
-                                                confirmDeleteDeck={confirmDeleteDeck} 
-                                                setSelectedDeck={setSelectedDeck}
-                                                setModalOpen={setModalOpen}
-                                                modalOpen={modalOpen}
-                                                setEditStatus={setEditStatus}
-                                                editStatus={editStatus}
-                                            />
-                                            : null
-                                        }
-                                    </Deck>
-                            </TouchableOpacity>
-                        </ScrollView>
+                        <TouchableOpacity 
+                            key={item.id}
+                            onPress={() => navigation.navigate('Play', item)}
+                            onLongPress={() => {
+                                setSelectedDeck(item.id);
+                                setEditStatus(!editStatus);
+                                setSelectedDeckData(item);
+                        }}>
+                                <Deck>
+                                    <Text style={globalStyles.text}>{item.deck}</Text>
+                                    {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
+                                    {
+                                        item.deckImg.slice(0,4) === 'file' ? <Image style={globalStyles.images} source={{uri: item.deckImg}} />
+                                        : <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
+                                    }
+                                    {
+                                        // show additional options to edit and delete on longpress
+                                        item.id === selectedDeck && editStatus ? 
+                                        <DeckOptions 
+                                            toEditDeck={selectedDeck} 
+                                            confirmDeleteDeck={confirmDeleteDeck} 
+                                            setSelectedDeckData={setSelectedDeckData}
+                                            setModalOpen={setModalOpen}
+                                            modalOpen={modalOpen}
+                                            setEditStatus={setEditStatus}
+                                            editStatus={editStatus}
+                                        /> : null
+                                    }
+                                </Deck>
+                        </TouchableOpacity>
                     )}
                 />
             </Animatable.View>

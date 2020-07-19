@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal, Button, TextInput } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/global';
 
-export default function DeckOptions({ toEditDeck, confirmDeleteDeck, setSelectedDeck, setModalOpen, modalOpen, setEditStatus, editStatus }) {
+export default function DeckOptions({ toEditDeck, confirmDeleteDeck, setSelectedDeckData, setModalOpen, modalOpen, setEditStatus, editStatus }) {
     return(
         <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={() => setModalOpen(!modalOpen)}>
@@ -12,8 +12,8 @@ export default function DeckOptions({ toEditDeck, confirmDeleteDeck, setSelected
                 <Text style={globalStyles.text}>Delete</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => {
-                setSelectedDeck(null);
-                setEditStatus(!editStatus);
+                setSelectedDeckData(null);
+                setEditStatus(false);
             }}>
                 <Text style={globalStyles.text}>Cancel</Text>
             </TouchableOpacity>  
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     button: {
         paddingVertical: 15,
         marginBottom: 15,
-        width: 120,
+        width: 90,
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         shadowColor: 'black',

@@ -12,10 +12,9 @@ export default function Deck(props) {
 const styles = StyleSheet.create({
     deck: {
         backgroundColor: '#F2EF9A',
-        width: 200,
-        padding: 30,
-        flex: 1,
-        margin: 20,
+        width: 130,
+        minHeight: 150,
+        margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,

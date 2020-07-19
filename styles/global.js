@@ -9,13 +9,14 @@ export const globalStyles = StyleSheet.create({
     },
     text: {
         fontFamily: 'Varela',
-        fontSize: 18, 
+        fontSize: 14,
+        margin: 5
     },
     images: {
         resizeMode: 'contain',
-        width: 140,
-        height: 140,
-        marginTop: 5
+        width: 100,
+        height: 100,
+        margin: 5
     },
     input: {
         padding: 10,
