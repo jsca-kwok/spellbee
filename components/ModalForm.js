@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert 
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
 import { v4 as uuid } from 'uuid';
-import { globalStyles } from '../styles/global';
 import ImagePick from './ImagePick';
 import WordImagePick from './WordImagePick';
+import { globalStyles } from '../styles/global';
 
 export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSelectedDeckData }) {
     const [deckName, setDeckName] = useState('');

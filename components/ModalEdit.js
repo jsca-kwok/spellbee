@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert 
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
-import ImagePick from '../components/ImagePick';
+import ImagePick from './ImagePick';
+import WordImagePick from './WordImagePick';
 import { globalStyles } from '../styles/global';
 
 export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData, selectedDeckData, setEditStatus }) {
@@ -35,10 +36,24 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
         setNewInputFields(values);
     }
 
+    // collect images
+    const addImage = (i, wordImg) => {
+        const values = [...inputFields];
+        values[i].wordImg = wordImg;
+        setNewInputFields(values);
+    }
+
     // change word
     const changeWord = (i, text) => {
         const values = [...inputFields];
         values[i].word = text;
+        setInputFields(values);
+    }
+
+    // change image
+    const changeImage = (i, wordImg) => {
+        const values = [...inputFields];
+        values[i].wordImg = wordImg;
         setInputFields(values);
     }
 
@@ -100,14 +115,17 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                             // only show input if input field is not empty
                             if (item.word !== null && item.word!== '') {
                                 return (
-                                    <TextInput 
-                                        key={item.wordId}
-                                        style={styles.input}
-                                        placeholder={item.word}
-                                        autoCapitalize='none'
-                                        onChangeText={text => {changeWord(i, text)}}
-                                        defaultValue={item.word}
-                                    />
+                                    <View style={styles.wordContainer}>
+                                        <WordImagePick defaultWordImg={'default'} index={i} changeImage={changeImage} currentWordImg={item.wordImg} /> 
+                                        <TextInput 
+                                            key={item.wordId}
+                                            style={styles.input}
+                                            placeholder={item.word}
+                                            autoCapitalize='none'
+                                            onChangeText={text => {changeWord(i, text)}}
+                                            defaultValue={item.word}
+                                        />
+                                    </View>
                                 )
                             }
                         })
@@ -115,7 +133,10 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     {
                         newInputFields.map((field, i) => {
                             return(
-                                <TextInput key={field.wordId} style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                                <View style={styles.wordContainer}>
+                                    <WordImagePick defaultWordImg={'default'} index={i} addImage={addImage} /> 
+                                    <TextInput key={field.wordId} style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
+                                </View>
                             )
                         })
                     }
@@ -155,6 +176,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 50,
+    },
+    wordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     },
     inputContainer: {
         justifyContent: 'center',

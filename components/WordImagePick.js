@@ -4,7 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import defaultImages from '../assets/images/defaultImages';
 
-export default function ImagePick({ defaultWordImg, index, addImage }) {
+export default function ImagePick({ defaultWordImg, index, addImage, changeImage, currentWordImg }) {
+    console.log(currentWordImg);
     const [wordImg, setWordImg] = useState(null);
 
     const selectPicture = async() => {
@@ -20,15 +21,30 @@ export default function ImagePick({ defaultWordImg, index, addImage }) {
             ])
         }
         setWordImg(uri);
-        addImage(index, uri);
+        if (addImage) {
+            addImage(index, uri);
+        } else {
+            changeImage(index, uri);
+        }
     }
 
     return(
         <TouchableOpacity onPress={selectPicture}>
             {/* set deckImage, use default if none are selected */}
-            {
+            {/* {
                 wordImg && wordImg.slice(0,4) === 'file' ? <Image style={styles.deckImg} source={{uri: wordImg}} />
                 : <Image style={styles.deckImg} source={defaultImages[defaultWordImg]} />
+            } */}
+            {
+                (() => {
+                    if (currentWordImg && currentWordImg.slice(0,4) === 'file') {
+                        return <Image style={styles.deckImg} source={{uri: currentWordImg}} />
+                    } else if (wordImg && wordImg.slice(0,4) === 'file') {
+                        return <Image style={styles.deckImg} source={{uri: wordImg}} />
+                    } else {
+                        return <Image style={styles.deckImg} source={defaultImages[defaultWordImg]} />
+                    }
+                })()
             }
         </TouchableOpacity>
     )
