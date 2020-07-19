@@ -10,11 +10,13 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
     const [deckName, setDeckName] = useState(`${selectedDeckData.deck}`);
     const [inputFields, setInputFields] = useState(selectedDeckData.words);
     const [newInputFields, setNewInputFields] = useState([]);
+    const [deckImg, setDeckImg] = useState(selectedDeckData.deckImg);
 
     // cancel changes - revert back to prev state
     const cancelChanges = () => {
         setDeckName(`${selectedDeckData.deck}`);
         setInputFields(selectedDeckData.words);
+        setDeckImg(selectedDeckData.deckImg);
         setNewInputFields([]);
         getDecks();
     }
@@ -65,7 +67,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
             axios.put('http://localhost:8080/vocabulary', {
                 deck: `${deckName}`,
                 id: `${selectedDeckData.id}`,
-                deckImg: 'default',
+                deckImg: deckImg,
                 words: realWords
             })
             .then(_res => {
@@ -81,7 +83,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
     return(
         <View style={styles.pageContainer}>
             <View style={styles.deckContainer}>
-                <ImagePick deckImg={selectedDeckData.deckImg} />
+                <ImagePick defaultDeckImg={selectedDeckData.deckImg} deckImg={deckImg} setDeckImg={setDeckImg} />
                 <TextInput 
                     style={styles.deckInput} 
                     placeholder={selectedDeckData.deck}

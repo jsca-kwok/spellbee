@@ -8,7 +8,6 @@ const VocabDeck = require('./models/VocabDeck');
 // connect to mongodb
 mongoose.connect('mongodb+srv://jessica:Kwok2776348@cluster0.c2nld.mongodb.net/spellbee?retryWrites=true&w=majority', 
 { useNewUrlParser: true, useUnifiedTopology: true });
-
 mongoose.connection.once('open', () => console.log('mongoDB connected'))
 .on('error', () => {console.log('mongodb connection error')});
 

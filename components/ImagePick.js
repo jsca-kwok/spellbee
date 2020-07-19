@@ -36,7 +36,7 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
         <TouchableOpacity onPress={selectPicture}>
             {/* set deckImage, use default if none are selected */}
             {
-                deckImg ? <Image style={styles.deckImg} source={{uri: deckImg}} />
+                deckImg && deckImg.slice(0,4) === 'file' ? <Image style={styles.deckImg} source={{uri: deckImg}} />
                 : <Image style={styles.deckImg} source={defaultImages[defaultDeckImg] || animalImages[defaultDeckImg] || fruitsAndVegImages[defaultDeckImg] || coloursImages[defaultDeckImg]} />
             }
         </TouchableOpacity>
