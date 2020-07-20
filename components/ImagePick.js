@@ -22,11 +22,18 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
     }
 
     // const takePicture = async() => {
+    //     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     //     await Permissions.askAsync(Permissions.CAMERA);
     //     const { cancelled, uri } = await ImagePicker.launchCameraAsync({ allowsEditing: true });
-    //     if (!cancelled) {
-    //         setImage({ image: uri });
+    //     if (cancelled) {
+    //         Alert.alert('Oops!', 'Requires access to camera to take your own image', [
+    //             {
+    //                 text: "Got it",
+    //                 style: "cancel"
+    //             }
+    //         ])
     //     }
+    //     setDeckImage(uri);
     // }
 
     return(

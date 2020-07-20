@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Text } from 'react-native';
 import * as Speech from 'expo-speech';
+import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 import SpellItem from '../components/SpellItem';
@@ -43,8 +44,8 @@ export default function Play({ navigation }) {
 
     // native element of onChange is passed in
     const handleInputChange = (event) => {
-        setInputValue(event.nativeEvent.text);
-        spellCheck(spellItem, event.nativeEvent.text);
+        setInputValue(event.nativeEvent.text.toLowerCase());
+        spellCheck(spellItem, event.nativeEvent.text.toLowerCase());
     }
 
     const spellCheck = (spellItem, input) => {
@@ -55,6 +56,7 @@ export default function Play({ navigation }) {
         if (spellItem === input) {
             deckWords.splice(takeOutIndex, 1);
             setDeckWords(deckWords);
+            playSound();
             // clear input when spelling is correct
             textInput.current.clear();
             const count = itemsLeft - 1;
@@ -66,6 +68,15 @@ export default function Play({ navigation }) {
         } else if (itemsLeft < 1) {
             setShowFeedback(false);
         }
+    }
+
+    // correct sound effect
+    const playSound = async() => {
+        const correctFX = new Audio.Sound();
+        await correctFX.loadAsync(
+            require('../assets/sounds/correct.wav')
+        );
+        correctFX.replayAsync();
     }
 
     // return to decks from result screen
