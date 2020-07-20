@@ -99,9 +99,9 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
             <KeyboardAwareScrollView style={styles.inputContainer} extraHeight={160}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
-                        inputFields.map((_field, i) => {
+                        inputFields.map((field, i) => {
                             return(
-                                <View style={styles.wordContainer}>
+                                <View key={field.wordId} style={styles.wordContainer}>
                                     <WordImagePick defaultWordImg={'default'} index={i} addImage={addImage}/> 
                                     <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
                                 </View>

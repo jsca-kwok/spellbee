@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 const logo = require('../assets/images/icons/logo.png');

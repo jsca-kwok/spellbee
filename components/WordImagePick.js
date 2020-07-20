@@ -5,7 +5,6 @@ import * as Permissions from 'expo-permissions';
 import defaultImages from '../assets/images/defaultImages';
 
 export default function ImagePick({ defaultWordImg, index, addImage, changeImage, currentWordImg }) {
-    console.log(currentWordImg);
     const [wordImg, setWordImg] = useState(null);
 
     const selectPicture = async() => {

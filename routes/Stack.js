@@ -16,13 +16,15 @@ const screens = {
     Home: {
         screen: Home,
         navigationOptions: {
-            title: 'SpellBee'
+            title: 'SpellBee',
+            headerShown: false
         }
     },
     Decks: {
         screen: Decks,
         navigationOptions: {
-            title: 'SpellBee'
+            title: 'SpellBee',
+            headerShown: false
         }
     },
     Play: {

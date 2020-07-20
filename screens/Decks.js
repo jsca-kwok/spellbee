@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Text, View, FlatList, TouchableOpacity, Modal, Image, ScrollView, Alert, StyleSheet } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Modal, Image, Alert, StyleSheet, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
@@ -19,12 +20,15 @@ export default function Decks({ navigation }) {
     const [selectedDeck, setSelectedDeck] = useState(null);
     const [editStatus, setEditStatus] = useState(false);
     const [selectedDeckData, setSelectedDeckData] = useState(null);
+    const [musicStatus, setMusicStatus] = useState(false);
+    const [starCount, setStarCount] = useState(0);
+    const [searchedDecks, setSearchedDecks] = useState('');
 
     // seed vocab decks
     useEffect(() => {getDecks()}, []);
     const getDecks = () => {
         axios.get('http://localhost:8080/vocabulary')
-        .then(res => setDecks(res.data))
+        .then(res => {setDecks(res.data); setSearchedDecks(res.data)})
         .catch(err => console.log(err));
     }
 
@@ -54,9 +58,39 @@ export default function Decks({ navigation }) {
         })
         .catch(err => console.log(err));
     }
+
+    // background music
+    // const backgroundMusic = new Audio.Sound();
+    // const playMusic = async(status) => {
+    //     setMusicStatus(status);
+    //     console.log(musicStatus);
+    //     if (status === true) {
+    //         await backgroundMusic.loadAsync(
+    //             require('../assets/sounds/calimba.mp3')
+    //         );
+    //         backgroundMusic.setVolumeAsync(0.3);
+    //         backgroundMusic.setIsLoopingAsync(true);
+    //         backgroundMusic.playAsync();
+    //     } else {
+    //         await backgroundMusic.loadAsync(
+    //             require('../assets/sounds/calimba.mp3')
+    //         );
+    //         backgroundMusic.stopAsync();
+    //     }
+    // }
+
+    // search for vocab deck
+    const searchDeck = (deck) => {
+        if (deck === '') {
+            setSearchedDecks(decks);
+        }
+        const searchedDeck = decks.filter(item => item.deck.toLowerCase() === deck.toLowerCase()).pop();
+        searchedDeck ? setSearchedDecks([searchedDeck]) : null;
+    }
     
     return (
-        <View style={globalStyles.container}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.pageContainer}>
             <Modal animationType='slide'visible={modalOpen}>
                 {
                     // if edit button clicked and select data is ready, render ModalEdit
@@ -65,12 +99,16 @@ export default function Decks({ navigation }) {
                     : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus}/>
                 }
             </Modal>
-            <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
+            <View style={styles.iconContainer}>
+                <Icon style={styles.addIcon} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
+                <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
+                {/* <Icon style={styles.musicIcon} name='ios-musical-notes' type='ionicon' color='#F2822D' onPress={() => {playMusic(!musicStatus)}}/> */}
+            </View>
             <Animatable.View animation='bounceIn'>
                 <FlatList   
                     showsVerticalScrollIndicator={false} 
                     numColumns={2}
-                    data={decks}
+                    data={searchedDecks}
                     renderItem={({ item }) => (
                         <TouchableOpacity 
                             key={item.id}
@@ -106,5 +144,34 @@ export default function Decks({ navigation }) {
                 />
             </Animatable.View>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
+
+const styles = StyleSheet.create({
+    pageContainer: {
+        flex: 1,
+        padding: 20,
+        alignItems: 'center',
+        backgroundColor: '#F2E155',
+        paddingTop: 50
+    },
+    iconContainer: {
+        paddingBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    searchInput: {
+        padding: 10,
+        marginLeft: 20,
+        fontSize: 18,
+        color: '#333',
+        backgroundColor: 'rgba(245,245,245, 0.8)',
+        borderRadius: 10,
+        width: '80%',
+        textAlign: 'center'
+    }
+    // addIcon: {
+    //     marginRight: 120
+    // }
+})

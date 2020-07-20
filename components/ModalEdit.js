@@ -116,10 +116,9 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                             // only show input if input field is not empty
                             if (item.word !== null && item.word!== '') {
                                 return (
-                                    <View style={styles.wordContainer}>
+                                    <View style={styles.wordContainer} key={item.wordId}>
                                         <WordImagePick defaultWordImg={'default'} index={i} changeImage={changeImage} currentWordImg={item.wordImg} /> 
                                         <TextInput 
-                                            key={item.wordId}
                                             style={styles.input}
                                             placeholder={item.word}
                                             autoCapitalize='none'

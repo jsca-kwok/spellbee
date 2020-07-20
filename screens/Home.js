@@ -7,7 +7,7 @@ export default function Home({ navigation }) {
 
     // go to 'Decks' screen and pass in navigation prop
     const startGameHandler = () => {
-        navigation.navigate('Decks', {navigation});
+        navigation.navigate('Decks', { navigation });
     }
 
     // generate random game tip
