@@ -86,8 +86,8 @@ export default function Decks({ navigation }) {
             setSearchedDecks(decks);
         } else {
             // show deck that contains the search value
-            const searchedDeck = decks.filter(item => item.deck.toLowerCase().includes(deck.toLowerCase())).pop();
-            searchedDeck ? setSearchedDecks([searchedDeck]) : null;
+            const searchedDeck = decks.filter(item => item.deck.toLowerCase().includes(deck.toLowerCase()));
+            searchedDeck ? setSearchedDecks(searchedDeck) : null;
         }
     }
     
