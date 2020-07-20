@@ -81,11 +81,14 @@ export default function Decks({ navigation }) {
 
     // search for vocab deck
     const searchDeck = (deck) => {
+        // show all decks if search bar is empty
         if (deck === '') {
             setSearchedDecks(decks);
+        } else {
+            // show deck that contains the search value
+            const searchedDeck = decks.filter(item => item.deck.toLowerCase().includes(deck.toLowerCase())).pop();
+            searchedDeck ? setSearchedDecks([searchedDeck]) : null;
         }
-        const searchedDeck = decks.filter(item => item.deck.toLowerCase() === deck.toLowerCase()).pop();
-        searchedDeck ? setSearchedDecks([searchedDeck]) : null;
     }
     
     return (
