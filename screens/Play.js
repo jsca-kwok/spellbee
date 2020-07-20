@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput, Image, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Text } from 'react-native';
 import * as Speech from 'expo-speech';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
@@ -18,7 +18,7 @@ const index = Math.floor(Math.random()*4);
 export default function Play({ navigation }) {
     const [inputValue, setInputValue] = useState('');
     const [spellItem, setSpellItem] = useState(null);
-    const [itemsLeft, setItemsLeft] = useState(5);
+    const [itemsLeft, setItemsLeft] = useState(4);
     const [showFeedback, setShowFeedback] = useState(false);
 
     // set ref to textinput
@@ -26,8 +26,8 @@ export default function Play({ navigation }) {
 
     // set current word list in play
     const wordList = navigation.getParam('words');
-    // randomizes word list and chooses only 5
-    const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,5);
+    // randomizes word list and chooses only 4
+    const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,4);
     const [deckWords, setDeckWords] = useState(randomWords);
 
     // text to speech
@@ -74,7 +74,7 @@ export default function Play({ navigation }) {
     }
 
     return (
-        <View style={styles.playScene}>
+        <KeyboardAvoidingView style={styles.playScene} behavior='padding' keyboardVerticalOffset={55}>
             <View style={styles.imageContainer}>
                 {
                     deckWords.map(word => {
@@ -95,7 +95,7 @@ export default function Play({ navigation }) {
             </View>
             {/* show feedback on correct answer */}
             {
-                showFeedback ? <Animatable.Text style={styles.feedback} animation='slideInUp'>{feedback[index]}</Animatable.Text> : null
+                showFeedback ? <Animatable.View animation='slideInUp' style={styles.feedbackContainer}><Text style={styles.feedback}>{feedback[index]}</Text></Animatable.View> : null
             }
             {/* if no items are left to spell, hide input and show RoundEnd */}
             {
@@ -108,20 +108,17 @@ export default function Play({ navigation }) {
                     autoCorrect={false}
                     ref={textInput}
                     style={globalStyles.input}
-                /> : null
+                /> : <RoundEnd goBack={goBack} />
             }
-            {
-                itemsLeft === 0 ? <RoundEnd goBack={goBack} /> : null
-            }
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     playScene: {
         flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#7ACDF2'
+        backgroundColor: '#7ACDF2',
+        alignItems: 'center'
     },
     images:{
         resizeMode: 'contain',
@@ -136,9 +133,16 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20
     },
+    feedbackContainer: {
+        borderRadius: 10,
+        alignSelf: 'flex-end',
+        marginRight: 15,
+        backgroundColor: 'rgba(245,245,245, 0.8)',
+    },
     feedback: {
-        fontSize: 25,
+        fontSize: 15,
         fontFamily: 'Varela',
-        color: '#175B00'
+        color: '#175B00',
+        padding: 5,
     }
 })

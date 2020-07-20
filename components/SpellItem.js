@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function SpellItem(props) {
 
@@ -9,10 +9,3 @@ export default function SpellItem(props) {
         </View>
     )
 }
-
-// const styles = StyleSheet.create({
-//     spellItemContainer: {
-//         flex: 1,
-//         flexDirection: 'row'
-//     }
-// })

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
@@ -107,7 +108,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     defaultValue={selectedDeckData.deck}
                 />
             </View>
-            <View style={styles.inputContainer}>
+            <KeyboardAwareScrollView style={styles.inputContainer} extraHeight={160}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {/* lists all current words in vocab deck */}
                     {
@@ -142,7 +143,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     }
                     <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
                 </ScrollView>
-            </View>
+            </KeyboardAwareScrollView>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity 
                     style={styles.button}
@@ -183,8 +184,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     inputContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
         height: 370,
         marginTop: 15
     },
