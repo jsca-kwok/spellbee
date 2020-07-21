@@ -6,7 +6,6 @@ import { Audio } from 'expo-av';
 import { globalStyles } from '../styles/global';
 
 export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus, newRate, newPitch, voiceRate, voicePitch, toggleSwitch, isEnabled }) {
-    // const [isEnabled, setIsEnabled] = useState(false);
 
     // play sound effect during voice settings
     const playSound = async() => {
@@ -17,23 +16,16 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
         correctFX.replayAsync();
     }
 
-    // // toggle switch
-    // const toggleSwitch = () => {
-    //     setIsEnabled(!isEnabled);
-    // }
-
     // screen time reminder
     const screenTimeReminder = (status) => {
         if (status) {
-            setTimeout(screenAlert, 600000);
+            setInterval(screenAlert, 600000);
             Alert.alert('Screen Time Reminder Enabled', 'We will remind you to rest after 10 minutes of screen time', [
                 {
                     text: "Got it",
                     style: "cancel"
                 }
             ])
-        } else {
-            console.log('not enabled');
         }
     }
 
@@ -164,7 +156,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        marginTop: 15,
+        marginTop: 120,
         flexDirection: 'row'
     },
     button: {

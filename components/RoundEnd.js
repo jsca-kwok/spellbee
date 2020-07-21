@@ -11,7 +11,7 @@ const index = Math.floor(Math.random()*4);
 export default function RoundEnd({ goBack }) {
     return (
         <View style={styles.playScene}>
-            <Animatable.View style={styles.logoImg} animation='slideOutUp' iterationCount='infinite' direction='alternate'>
+            <Animatable.View style={styles.logoImgContainer} animation='slideOutUp' iterationCount='infinite' direction='alternate'>
                 <Animatable.Image style={styles.logoImg} source={logo} animation='swing' iterationCount='infinite'/>
             </Animatable.View> 
             <Text style={styles.text}>{feedback[index]}</Text>
@@ -30,9 +30,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#7ACDF2'
     },
-    logoImg: {
-        resizeMode: 'contain',
+    logoImgContainer: {
         flex: 1
+    },
+    logoImg: {
+        // resizeMode: 'contain',
+        flex: 1,
+        width: 115
     },
     text: {
         fontFamily: 'Varela',
