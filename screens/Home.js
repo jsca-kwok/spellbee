@@ -11,13 +11,18 @@ export default function Home({ navigation }) {
     }
 
     // generate random game tip
-    const gameTip = ['Tip: Long press on a vocab deck to edit or delete', 'Tip: Add your own vocab decks', `Tip: Don't forget to rest your eyes`];
-    const index = Math.floor(Math.random()*3);
+    // const gameTip = ['Tip: Long press on a vocab deck to edit or delete', 'Tip: Add your own vocab decks', `Tip: Don't forget to rest your eyes`, `Tip: Turn on music for the best experience`];
+    // const index = Math.floor(Math.random()*4);
+
+    // const randomGameTip = () => {
+    //     setInterval(() => {
+    //         return gameTip[index]
+    //     }, 2000)
+    // }
 
     return (
         <View style={globalStyles.container}>
             <Animatable.Text style={globalStyles.text} animation='flash' direction='alternate'>Logged in!</Animatable.Text>
-            <Text style={styles.tip}>{gameTip[index]}</Text>
             <Animatable.View animation='pulse' iterationCount='infinite'>
                 <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
                     <Text style={globalStyles.text}>START GAME</Text>

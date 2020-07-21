@@ -14,6 +14,8 @@ import coloursImages from '../assets/images/colours/coloursImages';
 import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
 import defaultImages from '../assets/images/defaultImages';
 
+const backgroundMusic = new Audio.Sound();
+
 export default function Decks({ navigation }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [decks, setDecks] = useState('');
@@ -59,25 +61,19 @@ export default function Decks({ navigation }) {
         .catch(err => console.log(err));
     }
 
-    // background music
-    // const backgroundMusic = new Audio.Sound();
-    // const playMusic = async(status) => {
-    //     setMusicStatus(status);
-    //     console.log(musicStatus);
-    //     if (status === true) {
-    //         await backgroundMusic.loadAsync(
-    //             require('../assets/sounds/calimba.mp3')
-    //         );
-    //         backgroundMusic.setVolumeAsync(0.3);
-    //         backgroundMusic.setIsLoopingAsync(true);
-    //         backgroundMusic.playAsync();
-    //     } else {
-    //         await backgroundMusic.loadAsync(
-    //             require('../assets/sounds/calimba.mp3')
-    //         );
-    //         backgroundMusic.stopAsync();
-    //     }
-    // }
+    // toggle background music
+    const toggleMusic = async(status) => {
+        if (status) {
+            await backgroundMusic.pauseAsync();
+            setMusicStatus(false);
+        } else {
+            setMusicStatus(true);
+            await backgroundMusic.loadAsync(require('../assets/sounds/calimba.mp3'));
+            await backgroundMusic.playAsync();
+            await backgroundMusic.setVolumeAsync(0.3);
+            await backgroundMusic.setIsLoopingAsync(true);
+        }
+    }
 
     // search for vocab deck
     const searchDeck = (deck) => {
@@ -105,7 +101,8 @@ export default function Decks({ navigation }) {
             <View style={styles.iconContainer}>
                 <Icon style={styles.addIcon} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
                 <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
-                {/* <Icon style={styles.musicIcon} name='ios-musical-notes' type='ionicon' color='#F2822D' onPress={() => {playMusic(!musicStatus)}}/> */}
+                <Icon style={styles.musicIcon} name='ios-musical-notes' type='ionicon' color='#F2822D' 
+                    onPress={() => {toggleMusic(musicStatus)}}/>
             </View>
             <Animatable.View animation='bounceIn'>
                 <FlatList   
