@@ -24,7 +24,6 @@ const screens = {
         screen: Decks,
         navigationOptions: {
             title: 'SpellBee',
-            headerShown: false
         }
     },
     Play: {

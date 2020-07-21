@@ -8,6 +8,7 @@ import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
 import ModalForm from '../components/ModalForm';
 import ModalEdit from '../components/ModalEdit';
+import ModalSettings from '../components/ModalSettings';
 import DeckOptions from '../components/DeckOptions';
 import animalImages from '../assets/images/animals/animalImages';
 import coloursImages from '../assets/images/colours/coloursImages';
@@ -23,8 +24,9 @@ export default function Decks({ navigation }) {
     const [editStatus, setEditStatus] = useState(false);
     const [selectedDeckData, setSelectedDeckData] = useState(null);
     const [musicStatus, setMusicStatus] = useState(false);
-    const [starCount, setStarCount] = useState(0);
     const [searchedDecks, setSearchedDecks] = useState('');
+    const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+    const [soundEffectsStatus, setSoundEffectsStatus] = useState(true);
 
     // seed vocab decks
     useEffect(() => {getDecks()}, []);
@@ -90,7 +92,8 @@ export default function Decks({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.pageContainer}>
-            <Modal animationType='slide'visible={modalOpen}>
+            {/* modal for adding/editing vocab decks */}
+            <Modal animationType='slide' visible={modalOpen}>
                 {
                     // if edit button clicked and select data is ready, render ModalEdit
                     !editStatus && selectedDeckData === null ? 
@@ -98,11 +101,14 @@ export default function Decks({ navigation }) {
                     : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus}/>
                 }
             </Modal>
+            {/* modal for game settings  */}
+            <Modal animationType='slide' visible={settingsModalOpen}>
+                <ModalSettings toggleMusic={toggleMusic} musicStatus={musicStatus} setMusicStatus={setMusicStatus} setSettingsModalOpen={setSettingsModalOpen} soundEffectsStatus={soundEffectsStatus} setSoundEffectsStatus={setSoundEffectsStatus}/>
+            </Modal>
             <View style={styles.iconContainer}>
-                <Icon style={styles.addIcon} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
                 <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
-                <Icon style={styles.musicIcon} name='ios-musical-notes' type='ionicon' color='#F2822D' 
-                    onPress={() => {toggleMusic(musicStatus)}}/>
+                <Icon style={styles.addIcon} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
+                <Icon style={styles.settingsIcon} name='ios-settings' type='ionicon' color='#F2822D' onPress={() => setSettingsModalOpen(!settingsModalOpen)}/>
             </View>
             <Animatable.View animation='bounceIn'>
                 <FlatList   
@@ -153,8 +159,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         alignItems: 'center',
-        backgroundColor: '#F2E155',
-        paddingTop: 50
+        backgroundColor: '#F2E155'
     },
     iconContainer: {
         paddingBottom: 15,
@@ -163,15 +168,15 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         padding: 10,
-        marginLeft: 20,
+        marginRight: 20,
         fontSize: 18,
         color: '#333',
         backgroundColor: 'rgba(245,245,245, 0.8)',
         borderRadius: 10,
-        width: '80%',
+        width: '70%',
         textAlign: 'center'
+    },
+    addIcon: {
+        marginRight: 10
     }
-    // addIcon: {
-    //     marginRight: 120
-    // }
 })

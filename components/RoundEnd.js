@@ -13,7 +13,7 @@ export default function RoundEnd({ goBack }) {
         <View style={styles.playScene}>
             <Animatable.View style={styles.logoImg} animation='slideOutUp' iterationCount='infinite' direction='alternate'>
                 <Animatable.Image style={styles.logoImg} source={logo} animation='swing' iterationCount='infinite'/>
-            </Animatable.View>
+            </Animatable.View> 
             <Text style={styles.text}>{feedback[index]}</Text>
             <Animatable.View animation='pulse' iterationCount='infinite'>
                 <TouchableOpacity style={styles.button} onPress={() => goBack() }>
