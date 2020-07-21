@@ -67,11 +67,12 @@ export default function Decks({ navigation }) {
     const toggleMusic = async(status) => {
         if (status) {
             await backgroundMusic.pauseAsync();
+            await backgroundMusic.unloadAsync();
             setMusicStatus(false);
         } else {
             setMusicStatus(true);
             await backgroundMusic.loadAsync(require('../assets/sounds/calimba.mp3'));
-            await backgroundMusic.playAsync();
+            await backgroundMusic.replayAsync();
             await backgroundMusic.setVolumeAsync(0.3);
             await backgroundMusic.setIsLoopingAsync(true);
         }
@@ -118,7 +119,7 @@ export default function Decks({ navigation }) {
                     renderItem={({ item }) => (
                         <TouchableOpacity 
                             key={item.id}
-                            onPress={() => navigation.navigate('Play', item)}
+                            onPress={() => navigation.navigate('Play', {item, soundEffectsStatus: soundEffectsStatus})}
                             onLongPress={() => {
                                 setSelectedDeck(item.id);
                                 setEditStatus(!editStatus);

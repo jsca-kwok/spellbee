@@ -1,9 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { Audio } from 'expo-av';
 import { globalStyles } from '../styles/global';
 
 export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus }) {
+
+    // play sound effect
+    const playSound = async() => {
+        const correctFX = new Audio.Sound();
+        await correctFX.loadAsync(
+            require('../assets/sounds/correct.wav')
+        );
+        correctFX.replayAsync();
+    }
+
     return(
         <View style={styles.pageContainer}>
             <View style={styles.titleContainer}>
@@ -13,15 +24,19 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                 <View style={styles.settingContainer}>
                     <Text style={styles.settingText}>Background Music</Text>
                     {
-                        musicStatus ? <Icon size={40} name='ios-volume-mute' type='ionicon' color='#F2822D' onPress={() => {toggleMusic(musicStatus)}} />
+                        !musicStatus ? <Icon size={40} name='ios-volume-mute' type='ionicon' color='#F2822D' onPress={() => {toggleMusic(musicStatus)}} />
                         : <Icon size={40} name='ios-musical-notes' type='ionicon' color='#F2822D' onPress={() => {toggleMusic(musicStatus)}} />
                     }
                 </View>
                 <View style={styles.settingContainer}>
                     <Text style={styles.settingText}>Sound Effects</Text>
                     {
-                        soundEffectsStatus ? <Icon size={40} name='ios-volume-mute' type='ionicon' color='#F2822D' onPress={() => {setSoundEffectsStatus(false)}} />
-                        : <Icon size={40} name='ios-musical-notes' type='ionicon' color='#F2822D' onPress={() => {setSoundEffectsStatus(true)}} />
+                        !soundEffectsStatus ? <Icon size={40} name='ios-volume-mute' type='ionicon' color='#F2822D' 
+                            onPress={() => {
+                                setSoundEffectsStatus(true);
+                                playSound();
+                            }}/>
+                        : <Icon size={40} name='ios-musical-notes' type='ionicon' color='#F2822D' onPress={() => {setSoundEffectsStatus(false)}} />
                     }
                 </View>
             </View>

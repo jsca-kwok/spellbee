@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Text } from 'react-native';
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
@@ -26,7 +26,7 @@ export default function Play({ navigation }) {
     const textInput = React.createRef();
 
     // set current word list in play
-    const wordList = navigation.getParam('words');
+    const wordList = navigation.state.params.item.words;
     // randomizes word list and chooses only 4
     const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,4);
     const [deckWords, setDeckWords] = useState(randomWords);
@@ -70,13 +70,18 @@ export default function Play({ navigation }) {
         }
     }
 
-    // correct sound effect
+    // play sound effect only if game settings have sfx toggled on
+    const soundEffectsStatus = navigation.state.params.soundEffectsStatus;
+
     const playSound = async() => {
-        const correctFX = new Audio.Sound();
-        await correctFX.loadAsync(
-            require('../assets/sounds/correct.wav')
-        );
-        correctFX.replayAsync();
+        if (soundEffectsStatus) {
+            const correctFX = new Audio.Sound();
+            await correctFX.loadAsync(
+                require('../assets/sounds/correct.wav')
+            );
+            correctFX.replayAsync();
+        }
+        return;
     }
 
     // return to decks from result screen
