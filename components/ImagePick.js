@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
 import defaultImages from '../assets/images/defaultImages';
 
 export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
@@ -22,18 +23,20 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
     }
 
     // const takePicture = async() => {
-    //     await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    //     await Permissions.askAsync(Permissions.CAMERA);
-    //     const { cancelled, uri } = await ImagePicker.launchCameraAsync({ allowsEditing: true });
-    //     if (cancelled) {
-    //         Alert.alert('Oops!', 'Requires access to camera to take your own image', [
-    //             {
-    //                 text: "Got it",
-    //                 style: "cancel"
-    //             }
-    //         ])
+    //     if (Constants.platform.ios) {
+    //         await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    //         await Permissions.askAsync(Permissions.CAMERA);
+    //         const { cancelled, uri } = await ImagePicker.launchCameraAsync({ allowsEditing: true });
+    //         if (cancelled) {
+    //             Alert.alert('Oops!', 'Requires access to camera to take your own image', [
+    //                 {
+    //                     text: "Got it",
+    //                     style: "cancel"
+    //                 }
+    //             ])
+    //         }
+    //         setDeckImage(uri);
     //     }
-    //     setDeckImage(uri);
     // }
 
     return(

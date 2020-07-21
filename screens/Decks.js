@@ -30,6 +30,7 @@ export default function Decks({ navigation }) {
     const [soundEffectsStatus, setSoundEffectsStatus] = useState(true);
     const [voicePitch, setVoicePitch] = useState(0);
     const [voiceRate, setVoiceRate] = useState(0);
+    const [isEnabled, setIsEnabled] = useState(false);
 
     // seed vocab decks
     useEffect(() => {getDecks()}, []);
@@ -117,6 +118,11 @@ export default function Decks({ navigation }) {
             searchedDeck ? setSearchedDecks(searchedDeck) : null;
         }
     }
+
+    // toggle switch for screentime reminder
+    const toggleSwitch = () => {
+        setIsEnabled(!isEnabled);
+    }
     
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -144,6 +150,8 @@ export default function Decks({ navigation }) {
                     newPitch={newPitch}
                     voiceRate={voiceRate}
                     voicePitch={voicePitch}
+                    toggleSwitch={toggleSwitch}
+                    isEnabled={isEnabled}
                 />
             </Modal>
             <View style={styles.iconContainer}>

@@ -31,7 +31,7 @@ export default function Play({ navigation }) {
     const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,4);
     const [deckWords, setDeckWords] = useState(randomWords);
 
-    // text to speech
+    // text to speech according to user settings
     const voicePitch = navigation.state.params.voicePitch;
     const voiceRate = navigation.state.params.voiceRate;
     const sayWord = (word) => {

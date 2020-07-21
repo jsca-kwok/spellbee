@@ -1,13 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Switch, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
 import { globalStyles } from '../styles/global';
 
-export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus, newRate, newPitch, voiceRate, voicePitch }) {
+export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus, newRate, newPitch, voiceRate, voicePitch, toggleSwitch, isEnabled }) {
+    // const [isEnabled, setIsEnabled] = useState(false);
 
-    // play sound effect
+    // play sound effect during voice settings
     const playSound = async() => {
         const correctFX = new Audio.Sound();
         await correctFX.loadAsync(
@@ -16,10 +17,39 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
         correctFX.replayAsync();
     }
 
+    // // toggle switch
+    // const toggleSwitch = () => {
+    //     setIsEnabled(!isEnabled);
+    // }
+
+    // screen time reminder
+    const screenTimeReminder = (status) => {
+        if (status) {
+            setTimeout(screenAlert, 600000);
+            Alert.alert('Screen Time Reminder Enabled', 'We will remind you to rest after 10 minutes of screen time', [
+                {
+                    text: "Got it",
+                    style: "cancel"
+                }
+            ])
+        } else {
+            console.log('not enabled');
+        }
+    }
+
+    const screenAlert = () => {
+        Alert.alert(`Time's up!`, 'Remember to rest your eyes', [
+            {
+                text: "Got it",
+                style: "cancel"
+            }
+        ])
+    }
+
     return(
         <View style={styles.pageContainer}>
             <View style={styles.titleContainer}>
-                <Text style={styles.settingText}>Game Settings</Text>
+                <Text style={styles.settingTitleText}>Game Settings</Text>
             </View>
             <View style={styles.allSettingsContainer}>
                 <View style={styles.settingContainer}>
@@ -59,6 +89,18 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                         step={0.5} 
                         value={voiceRate}
                         onSlidingComplete={async(value) => {newRate(value)}}/>
+                </View>
+                <View style={styles.settingContainer}>
+                    <Text style={styles.settingText}>Screentime Watch</Text>
+                    <Switch 
+                        style={styles.switch}
+                        trackColor={{false: '#F5F5F5', true: '#F2822D'}} 
+                        ios_backgroundColor='#F5F5F5' 
+                        value={isEnabled} 
+                        onValueChange={() => {
+                        toggleSwitch(); 
+                        screenTimeReminder(!isEnabled);
+                    }}/>
                 </View>
             </View>
             <View style={styles.buttonContainer}>
@@ -111,8 +153,12 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         marginHorizontal: 50
     },
-    settingText: {
+    settingTitleText: {
         fontSize: 20,
+        fontFamily: 'Varela'
+    },
+    settingText: {
+        fontSize: 18,
         fontFamily: 'Varela'
     },
     buttonContainer: {
