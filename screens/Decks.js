@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Text, View, FlatList, TouchableOpacity, Modal, Image, Alert, StyleSheet, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Audio } from 'expo-av';
+import * as Speech from 'expo-speech';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
@@ -27,6 +28,8 @@ export default function Decks({ navigation }) {
     const [searchedDecks, setSearchedDecks] = useState('');
     const [settingsModalOpen, setSettingsModalOpen] = useState(false);
     const [soundEffectsStatus, setSoundEffectsStatus] = useState(true);
+    const [voicePitch, setVoicePitch] = useState(0);
+    const [voiceRate, setVoiceRate] = useState(0);
 
     // seed vocab decks
     useEffect(() => {getDecks()}, []);
@@ -78,6 +81,31 @@ export default function Decks({ navigation }) {
         }
     }
 
+    // say word when settings are adjusted - but not on first render
+    const firstRender = useRef(true);
+    useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+        sayWord('Spellbee');
+        }, [voicePitch, voiceRate]);
+    
+    // say word
+    const sayWord = (word) => {
+        Speech.speak(word, { pitch: voicePitch, rate: voiceRate });
+    }
+
+    // voice pitch setting
+    const newPitch = (pitch) => {
+        setVoicePitch(pitch);
+    }
+
+    // voice rate setting
+    const newRate = (rate) => {
+        setVoiceRate(rate);
+    }
+
     // search for vocab deck
     const searchDeck = (deck) => {
         // show all decks if search bar is empty
@@ -104,7 +132,19 @@ export default function Decks({ navigation }) {
             </Modal>
             {/* modal for game settings  */}
             <Modal animationType='slide' visible={settingsModalOpen}>
-                <ModalSettings toggleMusic={toggleMusic} musicStatus={musicStatus} setMusicStatus={setMusicStatus} setSettingsModalOpen={setSettingsModalOpen} soundEffectsStatus={soundEffectsStatus} setSoundEffectsStatus={setSoundEffectsStatus}/>
+                <ModalSettings 
+                    toggleMusic={toggleMusic} 
+                    musicStatus={musicStatus} 
+                    setMusicStatus={setMusicStatus} 
+                    setSettingsModalOpen={setSettingsModalOpen} 
+                    soundEffectsStatus={soundEffectsStatus} 
+                    setSoundEffectsStatus={setSoundEffectsStatus} 
+                    sayWord={sayWord} 
+                    newRate={newRate} 
+                    newPitch={newPitch}
+                    voiceRate={voiceRate}
+                    voicePitch={voicePitch}
+                />
             </Modal>
             <View style={styles.iconContainer}>
                 <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
@@ -119,7 +159,7 @@ export default function Decks({ navigation }) {
                     renderItem={({ item }) => (
                         <TouchableOpacity 
                             key={item.id}
-                            onPress={() => navigation.navigate('Play', {item, soundEffectsStatus: soundEffectsStatus})}
+                            onPress={() => navigation.navigate('Play', {item, soundEffectsStatus: soundEffectsStatus, voicePitch: voicePitch, voiceRate: voiceRate})}
                             onLongPress={() => {
                                 setSelectedDeck(item.id);
                                 setEditStatus(!editStatus);

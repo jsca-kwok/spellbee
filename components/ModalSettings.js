@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
 import { globalStyles } from '../styles/global';
 
-export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus }) {
+export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus, newRate, newPitch, voiceRate, voicePitch }) {
 
     // play sound effect
     const playSound = async() => {
@@ -38,6 +39,26 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                             }}/>
                         : <Icon size={40} name='ios-musical-notes' type='ionicon' color='#F2822D' onPress={() => {setSoundEffectsStatus(false)}} />
                     }
+                </View>
+                <View style={styles.settingContainer}>
+                    <Text style={styles.settingText}>Voice Pitch</Text>
+                    <Slider 
+                        style={{width: 100, height: 40}} 
+                        maximumValue={2} 
+                        minimumTrackTintColor='#F2822D' 
+                        step={0.5} 
+                        value={voicePitch}
+                        onSlidingComplete={(value) => {newPitch(value)}}/>
+                </View>
+                <View style={styles.settingContainer}>
+                    <Text style={styles.settingText}>Voice Rate</Text>
+                    <Slider 
+                        style={{width: 100, height: 40}} 
+                        maximumValue={1.5} 
+                        minimumTrackTintColor='#F2822D' 
+                        step={0.5} 
+                        value={voiceRate}
+                        onSlidingComplete={async(value) => {newRate(value)}}/>
                 </View>
             </View>
             <View style={styles.buttonContainer}>
@@ -85,9 +106,10 @@ const styles = StyleSheet.create({
     },
     settingContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: 5,
+        marginHorizontal: 50
     },
     settingText: {
         fontSize: 20,

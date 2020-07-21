@@ -32,8 +32,10 @@ export default function Play({ navigation }) {
     const [deckWords, setDeckWords] = useState(randomWords);
 
     // text to speech
+    const voicePitch = navigation.state.params.voicePitch;
+    const voiceRate = navigation.state.params.voiceRate;
     const sayWord = (word) => {
-        Speech.speak(word, { pitch: 1.4, rate: 0.7 });
+        Speech.speak(word, { pitch: voicePitch, rate: voiceRate });
     }
 
     const handlePress = (word) => {
