@@ -136,14 +136,23 @@ const styles = StyleSheet.create({
         right: -10
     },
     allSettingsContainer: {
-        marginTop: 120
+        marginTop: 140,
+        paddingVertical: 20,
+        marginHorizontal: 20,
+        backgroundColor: '#F2EF9A',
+        borderRadius: 10,
+        shadowColor: 'black',
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        elevation: 5,
     },
     settingContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: 5,
-        marginHorizontal: 50
+        marginHorizontal: 20
     },
     settingTitleText: {
         fontSize: 20,
@@ -156,7 +165,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        marginTop: 120,
+        marginTop: 60,
         flexDirection: 'row'
     },
     button: {
