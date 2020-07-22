@@ -16,10 +16,12 @@ export default function Home({ navigation, userName, signOutWithGoogleAsync, use
             <TouchableOpacity onPress={signOutWithGoogleAsync}>
                 <Text style={styles.notYou}>Not you?</Text>
             </TouchableOpacity>
-            <Animatable.View animation='pulse' iterationCount='infinite'>
-                <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
-                    <Text style={globalStyles.text}>START GAME</Text>
-                </TouchableOpacity>
+            <Animatable.View animation='bounceIn'>
+                <Animatable.View animation='pulse' iterationCount='infinite'>
+                    <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
+                        <Text style={globalStyles.text}>START GAME</Text>
+                    </TouchableOpacity>
+                </Animatable.View>
             </Animatable.View>
         </View>
     );

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Slider from '@react-native-community/slider';
+import * as Animatable from 'react-native-animatable';
 import { Audio } from 'expo-av';
 import { globalStyles } from '../styles/global';
 
@@ -43,7 +44,7 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
             <View style={styles.titleContainer}>
                 <Text style={styles.settingTitleText}>Game Settings</Text>
             </View>
-            <View style={styles.allSettingsContainer}>
+            <Animatable.View animation='zoomIn' style={styles.allSettingsContainer}>
                 <View style={styles.settingContainer}>
                     <Text style={styles.settingText}>Background Music</Text>
                     {
@@ -94,7 +95,7 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                         screenTimeReminder(!isEnabled);
                     }}/>
                 </View>
-            </View>
+            </Animatable.View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity  
                     style={styles.button}

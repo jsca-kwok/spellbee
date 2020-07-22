@@ -96,7 +96,7 @@ export default function Decks({ navigation }) {
             firstRender.current = false;
             return;
         }
-        sayWord('Spellbee');
+        sayWord('Hello');
         }, [voicePitch, voiceRate]);
     
     // say word
@@ -180,6 +180,7 @@ export default function Decks({ navigation }) {
                                 setEditStatus(!editStatus);
                                 setSelectedDeckData(item);
                         }}>
+                            <Animatable.View animation='flipInX'>
                                 <Deck>
                                     <Text style={globalStyles.text}>{item.deck}</Text>
                                     {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
@@ -201,6 +202,7 @@ export default function Decks({ navigation }) {
                                         /> : null
                                     }
                                 </Deck>
+                            </Animatable.View>
                         </TouchableOpacity>
                     )}
                 />
@@ -230,7 +232,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(245,245,245, 0.8)',
         borderRadius: 10,
         width: '70%',
-        textAlign: 'center'
+        textAlign: 'center',
+        shadowColor: 'grey',
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25
     },
     addIcon: {
         marginRight: 10

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
+import * as Animatable from 'react-native-animatable';
 import { v4 as uuid } from 'uuid';
 import ImagePick from './ImagePick';
 import WordImagePick from './WordImagePick';
@@ -103,10 +104,10 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
                     {
                         inputFields.map((field, i) => {
                             return(
-                                <View key={field.wordId} style={styles.wordContainer}>
+                                <Animatable.View animation='lightSpeedIn' key={field.wordId} style={styles.wordContainer}>
                                     <WordImagePick defaultWordImg={'default'} index={i} addImage={addImage}/> 
                                     <TextInput style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
-                                </View>
+                                </Animatable.View>
                             )
                         })
                     }

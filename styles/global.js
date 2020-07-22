@@ -26,6 +26,11 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: 'rgba(245,245,245, 0.8)',
         borderRadius: 10,
         width: '90%',
-        textAlign: 'center'
+        textAlign: 'center',
+        shadowColor: 'black',
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        elevation: 5,
     }
 })

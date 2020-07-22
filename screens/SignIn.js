@@ -46,7 +46,7 @@ export default function SignIn({ navigation }) {
     return (
         <View style={styles.screenContainer}>
             <Animatable.Image animation='flipInY' style={styles.logoImg} source={logo} />
-            <Text style={styles.logoText}>SpellBee</Text>
+            <Animatable.Text animation='zoomInUp' style={styles.logoText}>SpellBee</Animatable.Text>
         {
             !signedIn ? 
             <TouchableOpacity onPress={signInWithGoogleAsync}>

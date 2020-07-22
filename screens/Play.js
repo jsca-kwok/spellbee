@@ -114,7 +114,7 @@ export default function Play({ navigation }) {
 
     return (
         <KeyboardAvoidingView style={styles.playScene} behavior='padding' keyboardVerticalOffset={55}>
-            <View style={styles.imageContainer}>
+            <Animatable.View animation='flipInY' style={styles.imageContainer}>
                 {
                     deckWords.map(word => {
                         return (
@@ -131,17 +131,18 @@ export default function Play({ navigation }) {
                         )
                     })
                 }
-            </View>
+            </Animatable.View>
             {/* show feedback on correct answer */}
             {
-                showPositiveFeedback ? <Animatable.View animation='slideInUp' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
+                showPositiveFeedback ? <Animatable.View animation='tada' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
             }
             {
-                showNegativeFeedback ? <Animatable.View animation='slideInUp' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
+                showNegativeFeedback ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
             }
             {/* if no items are left to spell, hide input and show RoundEnd */}
             {
                 itemsLeft !== 0 ? 
+                <Animatable.View animation='bounceInUp' style={styles.inputContainer}>
                 <TextInput 
                     onSubmitEditing={(event) => handleInputChange(event)}
                     placeholder='Tap here to spell it!' 
@@ -150,7 +151,9 @@ export default function Play({ navigation }) {
                     autoCorrect={false}
                     ref={textInput}
                     style={globalStyles.input}
-                /> : <RoundEnd goBack={goBack} />
+                />
+                </Animatable.View>
+                : <RoundEnd goBack={goBack} />
             }
         </KeyboardAvoidingView>
     );
@@ -192,5 +195,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Varela',
         color: 'red',
         padding: 5
+    },
+    inputContainer: {
+        width: '90%'
     }
 })

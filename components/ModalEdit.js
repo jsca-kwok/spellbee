@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
+import * as Animatable from 'react-native-animatable';
 import ImagePick from './ImagePick';
 import WordImagePick from './WordImagePick';
 import { globalStyles } from '../styles/global';
@@ -117,7 +118,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                             // only show input if input field is not empty
                             if (item.word !== null && item.word!== '') {
                                 return (
-                                    <View style={styles.wordContainer} key={item.wordId}>
+                                    <Animatable.View animation='lightSpeedIn' style={styles.wordContainer} key={item.wordId}>
                                         <WordImagePick defaultWordImg={'default'} index={i} changeImage={changeImage} currentWordImg={item.wordImg} /> 
                                         <TextInput 
                                             style={styles.input}
@@ -126,7 +127,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                                             onChangeText={text => {changeWord(i, text)}}
                                             defaultValue={item.word}
                                         />
-                                    </View>
+                                    </Animatable.View>
                                 )
                             }
                         })
@@ -134,10 +135,10 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     {
                         newInputFields.map((field, i) => {
                             return(
-                                <View style={styles.wordContainer} key={field.wordId}>
+                                <Animatable.View animation='lightSpeedIn' style={styles.wordContainer} key={field.wordId}>
                                     <WordImagePick defaultWordImg={'default'} index={i} addImage={addImage} /> 
                                     <TextInput key={field.wordId} style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
-                                </View>
+                                </Animatable.View>
                             )
                         })
                     }
