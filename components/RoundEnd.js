@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import { globalStyles } from '../styles/global';
 const logo = require('../assets/images/icons/logo.png');
 
@@ -10,6 +11,8 @@ const index = Math.floor(Math.random()*4);
 
 export default function RoundEnd({ goBack }) {
     return (
+        <>
+        <ConfettiCannon style={styles.confettiContainer} count={200} origin={{x: -10, y: 0}} fadeOut={true}/>
         <View style={styles.playScene}>
             <Animatable.View style={styles.logoImgContainer} animation='slideOutUp' iterationCount='infinite' direction='alternate'>
                 <Animatable.Image style={styles.logoImg} source={logo} animation='swing' iterationCount='infinite'/>
@@ -21,14 +24,18 @@ export default function RoundEnd({ goBack }) {
                 </TouchableOpacity>
             </Animatable.View>
         </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
+    confettiContainer: {
+        flex: 1,
+        backgroundColor: '#7ACDF2',
+    },
     playScene: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#7ACDF2'
     },
     logoImgContainer: {
         flex: 1
