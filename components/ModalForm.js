@@ -45,8 +45,8 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
                 }
             ])
         // check if there are at least 5 words
-        } else if (inputFields.length < 5) {
-            Alert.alert("Oops!", "Please add at least 5 words", [
+        } else if (inputFields.length < 6) {
+            Alert.alert("Oops!", "Please add at least 6 words", [
                 {
                     text: "Got it",
                     style: "cancel"

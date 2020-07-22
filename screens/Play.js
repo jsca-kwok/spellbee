@@ -20,7 +20,7 @@ const index = Math.floor(Math.random()*4);
 export default function Play({ navigation }) {
     const [inputValue, setInputValue] = useState('');
     const [spellItem, setSpellItem] = useState(null);
-    const [itemsLeft, setItemsLeft] = useState(4);
+    const [itemsLeft, setItemsLeft] = useState(6);
     const [showPositiveFeedback, setShowPositiveFeedback] = useState(false);
     const [showNegativeFeedback, setShowNegativeFeedback] = useState(false);
 
@@ -29,8 +29,8 @@ export default function Play({ navigation }) {
 
     // set current word list in play
     const wordList = navigation.state.params.item.words;
-    // randomizes word list and chooses only 4
-    const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,4);
+    // randomizes word list and chooses only 6
+    const randomWords = wordList.sort(() => Math.random() - 0.5).slice(0,6);
     const [deckWords, setDeckWords] = useState(randomWords);
 
     // text to speech according to user settings
@@ -61,39 +61,48 @@ export default function Play({ navigation }) {
         if (spellItem === input) {
             deckWords.splice(takeOutIndex, 1);
             setDeckWords(deckWords);
-            playSound(true);
             // clear input when spelling is correct
             textInput.current.clear();
             const count = itemsLeft - 1;
             setItemsLeft(count);
         } else {
-            playSound(false);
+            playSound('incorrect');
             setShowNegativeFeedback(true);
         }
         // do not show feedback for last correct answer
         if (spellItem === input && itemsLeft !== 1) {
             setShowPositiveFeedback(true);
-        } else if (itemsLeft < 1) {
+            setShowNegativeFeedback(false);
+            playSound('correct');
+        } else if (itemsLeft <= 1) {
             setShowPositiveFeedback(false);
+            setShowNegativeFeedback(false);
+            playSound('complete');
         }
     }
 
     // play sound effect only if game settings have sfx toggled on
     const soundEffectsStatus = navigation.state.params.soundEffectsStatus;
 
-    const playSound = async(correctStatus) => {
-        if (soundEffectsStatus && correctStatus) {
+    const playSound = async(sound) => {
+        if (soundEffectsStatus && sound === 'correct') {
             const correctFX = new Audio.Sound();
             await correctFX.loadAsync(
                 require('../assets/sounds/correct.wav')
             );
             correctFX.replayAsync();
-        } else if (soundEffectsStatus && !correctStatus) {
+        } else if (soundEffectsStatus && sound === 'incorrect') {
             const incorrectFX = new Audio.Sound();
             await incorrectFX.loadAsync(
                 require('../assets/sounds/incorrect.wav')
             )
             incorrectFX.replayAsync();
+        } else if (soundEffectsStatus && sound === 'complete') {
+            const completeFX = new Audio.Sound();
+            await completeFX.loadAsync(
+                require('../assets/sounds/wand.wav')
+            )
+            completeFX.replayAsync();
         }
         return;
     }
@@ -173,15 +182,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(245,245,245, 0.8)',
     },
     positiveFeedback: {
-        fontSize: 15,
+        fontSize: 20,
         fontFamily: 'Varela',
         color: '#175B00',
         padding: 5,
     },
     negativeFeedback: {
-        fontSize: 15,
+        fontSize: 20,
         fontFamily: 'Varela',
         color: 'red',
-        padding: 5,
+        padding: 5
     }
 })
