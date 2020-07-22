@@ -25,6 +25,7 @@ export default function Play({ navigation }) {
     const [showNegativeFeedback, setShowNegativeFeedback] = useState(false);
     const [hintIndex, setHintIndex] = useState(-1);
     const [showHint, setShowHint] = useState(false);
+    const [hintError, setHintError] = useState(false);
 
     // set ref to textinput
     const textInput = React.createRef();
@@ -114,6 +115,10 @@ export default function Play({ navigation }) {
 
     // hint
     const giveHint = () => {
+        if (!spellItem) {
+            setHintError(true);
+            setTimeout(()=> {setHintError(false)}, 2000);
+        }
         if (spellItem && hintIndex < spellItem.length) {
             setShowPositiveFeedback(false);
             setShowNegativeFeedback(false);
@@ -127,7 +132,7 @@ export default function Play({ navigation }) {
             setShowHint(true);
             setHintIndex(0);
             setTimeout(()=> {setShowHint(false)}, 1000);
-        }
+        } 
     }
 
     // return to decks from result screen
@@ -161,15 +166,20 @@ export default function Play({ navigation }) {
                     spellItem && showHint ? <Animatable.Text animation='fadeInUp' style={styles.hintText}>{spellItem[hintIndex]}</Animatable.Text> : null
                 }
                 <View style={styles.hintAndFeedbackContainer}>
+                    <Animatable.View animation='bounceInUp'>
                     <TouchableOpacity style={styles.hintButton} onPress={giveHint}>
                         <Text style={styles.hintButtonText}>?</Text>
                     </TouchableOpacity>
+                    </Animatable.View>
                     {/* show feedback on correct answer */}
                     {
                         showPositiveFeedback ? <Animatable.View animation='tada' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
                     }
                     {
                         showNegativeFeedback ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
+                    }
+                    {
+                        hintError ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={globalStyles.text}>Oops! Choose a picture</Text></Animatable.View> : null
                     }
                 </View>
                 {/* if no items are left to spell, hide input and show RoundEnd */}
