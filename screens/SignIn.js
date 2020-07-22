@@ -8,23 +8,40 @@ const logo = require('../assets/images/icons/logo.png');
 
 export default function SignIn({ navigation }) {
     const [signedIn, setSignedIn] = useState(false);
+    const [accessToken, setAccessToken] = useState(null);
+    const [userName, setUserName] = useState(null);
+    const [userId, setUserId] = useState(null);
+
+    const config = {
+      iosClientId: '155282369432-38ad416pn945o9u968s4ncoogp1okok3.apps.googleusercontent.com',
+      scopes: ['profile', 'email']
+    }
 
     async function signInWithGoogleAsync() {
         try {
-          const result = await Google.logInAsync({
-            iosClientId: '155282369432-69nfb6n6pf9h5vm3ufq6v7ltmfe8nu3r.apps.googleusercontent.com',
-            scopes: ['profile', 'email'],
-          });
-      
+          const result = await Google.logInAsync(config);
           if (result.type === 'success') {
             setSignedIn(true);
+            setAccessToken(result.accessToken);
+            setUserName(result.user.givenName);
+            setUserId(result.user.id);
           } else {
             console.log('cancelled')
           }
         } catch (e) {
-          console.log('error');
+          console.log('error logging in');
         }
       }
+
+    async function signOutWithGoogleAsync() {
+      try {
+        const result = await Google.logOutAsync({accessToken, ...config});
+        setSignedIn(false);
+      }
+      catch (e) {
+        console.log('error logging out');
+      }
+    }
 
     return (
         <View style={styles.screenContainer}>
@@ -35,7 +52,7 @@ export default function SignIn({ navigation }) {
             <TouchableOpacity onPress={signInWithGoogleAsync}>
                 <Image style={styles.signInButton} source={googleSignIn} />
             </TouchableOpacity>
-            : <Home navigation={navigation} />
+            : <Home navigation={navigation} userName={userName} signOutWithGoogleAsync={signOutWithGoogleAsync} userId={userId}/>
         }
         </View>
     );

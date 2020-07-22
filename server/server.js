@@ -34,7 +34,8 @@ app.post('/vocabulary', (req, res) => {
         deck: req.body.deck,
         deckImg: req.body.deckImg,
         words: req.body.words,
-        id: req.body.id
+        id: req.body.id,
+        userId: req.body.userId
     }, function(err, deck) {
         if (err) {
             console.log(err);

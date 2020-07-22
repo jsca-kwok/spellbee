@@ -16,8 +16,7 @@ const screens = {
     Home: {
         screen: Home,
         navigationOptions: {
-            title: 'SpellBee',
-            headerShown: false
+            title: 'SpellBee'
         }
     },
     Decks: {

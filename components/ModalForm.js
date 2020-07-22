@@ -8,7 +8,7 @@ import ImagePick from './ImagePick';
 import WordImagePick from './WordImagePick';
 import { globalStyles } from '../styles/global';
 
-export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSelectedDeckData }) {
+export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSelectedDeckData, userId }) {
     const [deckName, setDeckName] = useState('');
     const [inputFields, setInputFields] = useState([{ wordId: uuid(), word: null, wordImg: 'default' }]);
     const [deckImg, setDeckImg] = useState(null);
@@ -58,7 +58,8 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
                 deck: `${deckName}`,
                 id: uuid(),
                 deckImg: deckImg,
-                words: inputFields
+                words: inputFields,
+                userId: userId 
             })
             .then(_res => {
                 getDecks();
@@ -73,7 +74,8 @@ export default function ModalForm({ setModalOpen, getDecks, setEditStatus, setSe
                 deck: `${deckName}`,
                 id: uuid(),
                 deckImg: 'default',
-                words: inputFields
+                words: inputFields,
+                userId: userId
             })
             .then(_res => {
                 getDecks();

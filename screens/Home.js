@@ -3,26 +3,19 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { globalStyles } from '../styles/global';
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, userName, signOutWithGoogleAsync, userId }) {
 
     // go to 'Decks' screen and pass in navigation prop
     const startGameHandler = () => {
-        navigation.navigate('Decks', { navigation });
+        navigation.navigate('Decks', { navigation, userId: userId });
     }
-
-    // generate random game tip
-    // const gameTip = ['Tip: Long press on a vocab deck to edit or delete', 'Tip: Add your own vocab decks', `Tip: Don't forget to rest your eyes`, `Tip: Turn on music for the best experience`];
-    // const index = Math.floor(Math.random()*4);
-
-    // const randomGameTip = () => {
-    //     setInterval(() => {
-    //         return gameTip[index]
-    //     }, 2000)
-    // }
 
     return (
         <View style={globalStyles.container}>
-            <Animatable.Text style={globalStyles.text} animation='flash' direction='alternate'>Logged in!</Animatable.Text>
+            <Animatable.Text style={globalStyles.text} animation='flash' direction='alternate'>Hi {userName}!</Animatable.Text>
+            <TouchableOpacity onPress={signOutWithGoogleAsync}>
+                <Text style={styles.notYou}>Not you?</Text>
+            </TouchableOpacity>
             <Animatable.View animation='pulse' iterationCount='infinite'>
                 <TouchableOpacity style={styles.startButton} onPress={startGameHandler}>
                     <Text style={globalStyles.text}>START GAME</Text>
@@ -44,9 +37,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         elevation: 5
     },
-    tip: {
+    notYou: {
         fontFamily: 'Varela',
         fontSize: 14,
-        marginTop: 15
+        textDecorationStyle: 'solid',
+        textDecorationLine: 'underline'
     }
 })

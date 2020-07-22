@@ -8,7 +8,7 @@ import ImagePick from './ImagePick';
 import WordImagePick from './WordImagePick';
 import { globalStyles } from '../styles/global';
 
-export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData, selectedDeckData, setEditStatus }) {
+export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData, selectedDeckData, setEditStatus, userId }) {
     const [deckName, setDeckName] = useState(`${selectedDeckData.deck}`);
     const [inputFields, setInputFields] = useState(selectedDeckData.words);
     const [newInputFields, setNewInputFields] = useState([]);
@@ -84,7 +84,8 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                 deck: `${deckName}`,
                 id: `${selectedDeckData.id}`,
                 deckImg: deckImg,
-                words: realWords
+                words: realWords,
+                userId: userId
             })
             .then(_res => {
                 getDecks();
@@ -133,7 +134,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     {
                         newInputFields.map((field, i) => {
                             return(
-                                <View style={styles.wordContainer}>
+                                <View style={styles.wordContainer} key={field.wordId}>
                                     <WordImagePick defaultWordImg={'default'} index={i} addImage={addImage} /> 
                                     <TextInput key={field.wordId} style={styles.input} placeholder='New word' onChangeText={text => addWord(i, text)} autoCapitalize='none'/>
                                 </View>

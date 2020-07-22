@@ -6,6 +6,7 @@ const vocabDeckSchema = new Schema({
     deck: String,
     deckImg: String,
     id: String,
+    userId: String,
     words: [{word: String, wordId: String, wordImg: String}]
 }, { collection: 'VocabDeck' })
 

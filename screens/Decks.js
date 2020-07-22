@@ -32,11 +32,18 @@ export default function Decks({ navigation }) {
     const [voiceRate, setVoiceRate] = useState(0);
     const [isEnabled, setIsEnabled] = useState(false);
 
+    const userId = navigation.state.params.userId;
+
     // seed vocab decks
     useEffect(() => {getDecks()}, []);
     const getDecks = () => {
         axios.get('http://localhost:8080/vocabulary')
-        .then(res => {setDecks(res.data); setSearchedDecks(res.data)})
+        .then(res => {
+            // only show decks that are default with app or user made
+            const userDecks = res.data.filter(deck => deck.userId === userId || !deck.userId);
+            setDecks(userDecks); 
+            setSearchedDecks(userDecks);
+        })
         .catch(err => console.log(err));
     }
 
@@ -132,8 +139,8 @@ export default function Decks({ navigation }) {
                 {
                     // if edit button clicked and select data is ready, render ModalEdit
                     !editStatus && selectedDeckData === null ? 
-                    <ModalForm setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} /> 
-                    : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus}/>
+                    <ModalForm setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} userId={userId}/> 
+                    : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} userId={userId}/>
                 }
             </Modal>
             {/* modal for game settings  */}
