@@ -13,14 +13,16 @@ import defaultImages from '../assets/images/defaultImages';
 
 
 // generate random feedback
-const feedback = ['Correcto-mundo!', 'Fabulous!', 'Yesiree!', `That's right!`];
+const positiveFeedback = ['Correcto-mundo!', 'Fabulous!', 'Yesiree!', `That's right!`];
+const negativeFeedback = ['Not quite..', 'Try again', 'So close!', 'Almost!'];
 const index = Math.floor(Math.random()*4);
 
 export default function Play({ navigation }) {
     const [inputValue, setInputValue] = useState('');
     const [spellItem, setSpellItem] = useState(null);
     const [itemsLeft, setItemsLeft] = useState(4);
-    const [showFeedback, setShowFeedback] = useState(false);
+    const [showPositiveFeedback, setShowPositiveFeedback] = useState(false);
+    const [showNegativeFeedback, setShowNegativeFeedback] = useState(false);
 
     // set ref to textinput
     const textInput = React.createRef();
@@ -41,7 +43,8 @@ export default function Play({ navigation }) {
     const handlePress = (word) => {
         sayWord(word);
         setSpellItem(word);
-        setShowFeedback(false);
+        setShowPositiveFeedback(false);
+        setShowNegativeFeedback(false);
     }
 
     // native element of onChange is passed in
@@ -58,30 +61,39 @@ export default function Play({ navigation }) {
         if (spellItem === input) {
             deckWords.splice(takeOutIndex, 1);
             setDeckWords(deckWords);
-            playSound();
+            playSound(true);
             // clear input when spelling is correct
             textInput.current.clear();
             const count = itemsLeft - 1;
             setItemsLeft(count);
+        } else {
+            playSound(false);
+            setShowNegativeFeedback(true);
         }
         // do not show feedback for last correct answer
         if (spellItem === input && itemsLeft !== 1) {
-            setShowFeedback(true);
+            setShowPositiveFeedback(true);
         } else if (itemsLeft < 1) {
-            setShowFeedback(false);
+            setShowPositiveFeedback(false);
         }
     }
 
     // play sound effect only if game settings have sfx toggled on
     const soundEffectsStatus = navigation.state.params.soundEffectsStatus;
 
-    const playSound = async() => {
-        if (soundEffectsStatus) {
+    const playSound = async(correctStatus) => {
+        if (soundEffectsStatus && correctStatus) {
             const correctFX = new Audio.Sound();
             await correctFX.loadAsync(
                 require('../assets/sounds/correct.wav')
             );
             correctFX.replayAsync();
+        } else if (soundEffectsStatus && !correctStatus) {
+            const incorrectFX = new Audio.Sound();
+            await incorrectFX.loadAsync(
+                require('../assets/sounds/incorrect.wav')
+            )
+            incorrectFX.replayAsync();
         }
         return;
     }
@@ -113,13 +125,16 @@ export default function Play({ navigation }) {
             </View>
             {/* show feedback on correct answer */}
             {
-                showFeedback ? <Animatable.View animation='slideInUp' style={styles.feedbackContainer}><Text style={styles.feedback}>{feedback[index]}</Text></Animatable.View> : null
+                showPositiveFeedback ? <Animatable.View animation='slideInUp' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
+            }
+            {
+                showNegativeFeedback ? <Animatable.View animation='slideInUp' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
             }
             {/* if no items are left to spell, hide input and show RoundEnd */}
             {
                 itemsLeft !== 0 ? 
                 <TextInput 
-                    onChange={(event) => handleInputChange(event)}
+                    onSubmitEditing={(event) => handleInputChange(event)}
                     placeholder='Tap here to spell it!' 
                     autoCapitalize='none'
                     autoCompleteType='off'
@@ -157,10 +172,16 @@ const styles = StyleSheet.create({
         marginRight: 15,
         backgroundColor: 'rgba(245,245,245, 0.8)',
     },
-    feedback: {
+    positiveFeedback: {
         fontSize: 15,
         fontFamily: 'Varela',
         color: '#175B00',
+        padding: 5,
+    },
+    negativeFeedback: {
+        fontSize: 15,
+        fontFamily: 'Varela',
+        color: 'red',
         padding: 5,
     }
 })

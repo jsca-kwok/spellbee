@@ -28,7 +28,7 @@ export default function Decks({ navigation }) {
     const [searchedDecks, setSearchedDecks] = useState('');
     const [settingsModalOpen, setSettingsModalOpen] = useState(false);
     const [soundEffectsStatus, setSoundEffectsStatus] = useState(true);
-    const [voicePitch, setVoicePitch] = useState(0);
+    const [voicePitch, setVoicePitch] = useState(1);
     const [voiceRate, setVoiceRate] = useState(0);
     const [isEnabled, setIsEnabled] = useState(false);
 
