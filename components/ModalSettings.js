@@ -20,13 +20,17 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
     // screen time reminder
     const screenTimeReminder = (status) => {
         if (status) {
-            setInterval(screenAlert, 600000);
+            handle = setInterval(screenAlert, 5000);
             Alert.alert('Screen Time Reminder Enabled', 'We will remind you to rest after 10 minutes of screen time', [
                 {
                     text: "Got it",
                     style: "cancel"
                 }
-            ])
+            ]);
+        }
+        else {
+            console.log(handle);
+            clearInterval(handle);
         }
     }
 
@@ -91,6 +95,7 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                         ios_backgroundColor='#F5F5F5' 
                         value={isEnabled} 
                         onValueChange={() => {
+                            console.log('111', isEnabled)
                         toggleSwitch(); 
                         screenTimeReminder(!isEnabled);
                     }}/>
@@ -102,12 +107,6 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                     onPress={() => setSettingsModalOpen(false)}
                 >
                     <Text style={globalStyles.text}>SAVE</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    style={styles.button}
-                    onPress={() => setSettingsModalOpen(false)}
-                >
-                    <Text style={globalStyles.text}>CANCEL</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -168,6 +168,7 @@ export default function Decks({ navigation }) {
             </View>
             <Animatable.View animation='bounceIn'>
                 <FlatList   
+                    style={styles.deckContainer}
                     showsVerticalScrollIndicator={false} 
                     numColumns={2}
                     data={searchedDecks}
@@ -240,5 +241,8 @@ const styles = StyleSheet.create({
     },
     addIcon: {
         marginRight: 10
+    },
+    deckContainer: {
+        marginBottom: 50
     }
 })
