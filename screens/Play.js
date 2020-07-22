@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Text } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Text } from 'react-native';
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
@@ -23,6 +23,8 @@ export default function Play({ navigation }) {
     const [itemsLeft, setItemsLeft] = useState(6);
     const [showPositiveFeedback, setShowPositiveFeedback] = useState(false);
     const [showNegativeFeedback, setShowNegativeFeedback] = useState(false);
+    const [hintIndex, setHintIndex] = useState(-1);
+    const [showHint, setShowHint] = useState(false);
 
     // set ref to textinput
     const textInput = React.createRef();
@@ -43,6 +45,7 @@ export default function Play({ navigation }) {
     const handlePress = (word) => {
         sayWord(word);
         setSpellItem(word);
+        setHintIndex(-1);
         setShowPositiveFeedback(false);
         setShowNegativeFeedback(false);
     }
@@ -61,10 +64,12 @@ export default function Play({ navigation }) {
         if (spellItem === input) {
             deckWords.splice(takeOutIndex, 1);
             setDeckWords(deckWords);
+            setSpellItem(null);
             // clear input when spelling is correct
             textInput.current.clear();
             const count = itemsLeft - 1;
             setItemsLeft(count);
+            setHintIndex(0);
         } else {
             playSound('incorrect');
             setShowNegativeFeedback(true);
@@ -74,7 +79,7 @@ export default function Play({ navigation }) {
             setShowPositiveFeedback(true);
             setShowNegativeFeedback(false);
             playSound('correct');
-        } else if (itemsLeft <= 1) {
+        } else if (spellItem === input && itemsLeft <= 1) {
             setShowPositiveFeedback(false);
             setShowNegativeFeedback(false);
             playSound('complete');
@@ -107,55 +112,84 @@ export default function Play({ navigation }) {
         return;
     }
 
+    // hint
+    const giveHint = () => {
+        if (spellItem && hintIndex < spellItem.length) {
+            setShowPositiveFeedback(false);
+            setShowNegativeFeedback(false);
+            setShowHint(true);
+            const newHintIndex = hintIndex + 1;
+            setHintIndex(newHintIndex);
+            setTimeout(()=> {setShowHint(false)}, 1000);
+        } else {
+            setShowPositiveFeedback(false);
+            setShowNegativeFeedback(false);
+            setShowHint(true);
+            setHintIndex(0);
+            setTimeout(()=> {setShowHint(false)}, 1000);
+        }
+    }
+
     // return to decks from result screen
     const goBack = () => {
         navigation.goBack();
     }
 
     return (
-        <KeyboardAvoidingView style={styles.playScene} behavior='padding' keyboardVerticalOffset={55}>
-            <Animatable.View animation='flipInY' style={styles.imageContainer}>
-                {
-                    deckWords.map(word => {
-                        return (
-                            <Animatable.View key={word.wordId} animation='pulse' iterationCount='infinite'>
-                                <TouchableOpacity onPress={() => {handlePress(word.word)}}>
-                                    <SpellItem style={styles.spellItem}>
-                                        {
-                                            word.wordImg && word.wordImg.slice(0,4) === 'file' ? <Image style={styles.images} source={{uri: word.wordImg}} />
-                                            : <Image style={styles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
-                                        }
-                                    </SpellItem>
-                                </TouchableOpacity>
-                            </Animatable.View>
-                        )
-                    })
-                }
-            </Animatable.View>
-            {/* show feedback on correct answer */}
-            {
-                showPositiveFeedback ? <Animatable.View animation='tada' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
-            }
-            {
-                showNegativeFeedback ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
-            }
-            {/* if no items are left to spell, hide input and show RoundEnd */}
-            {
-                itemsLeft !== 0 ? 
-                <Animatable.View animation='bounceInUp' style={styles.inputContainer}>
-                <TextInput 
-                    onSubmitEditing={(event) => handleInputChange(event)}
-                    placeholder='Tap here to spell it!' 
-                    autoCapitalize='none'
-                    autoCompleteType='off'
-                    autoCorrect={false}
-                    ref={textInput}
-                    style={globalStyles.input}
-                />
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <KeyboardAvoidingView style={styles.playScene} behavior='padding' keyboardVerticalOffset={55}>
+                <Animatable.View animation='flipInY' style={styles.imageContainer}>
+                    {
+                        deckWords.map(word => {
+                            return (
+                                <Animatable.View key={word.wordId} animation='pulse' iterationCount='infinite'>
+                                    <TouchableOpacity onPress={() => {handlePress(word.word)}}>
+                                        <SpellItem style={styles.spellItem}>
+                                            {
+                                                word.wordImg && word.wordImg.slice(0,4) === 'file' ? <Image style={styles.images} source={{uri: word.wordImg}} />
+                                                : <Image style={styles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
+                                            }
+                                        </SpellItem>
+                                    </TouchableOpacity>
+                                </Animatable.View>
+                            )
+                        })
+                    }
                 </Animatable.View>
-                : <RoundEnd goBack={goBack} />
-            }
-        </KeyboardAvoidingView>
+                {/* show hints */}
+                {
+                    spellItem && showHint ? <Animatable.Text animation='fadeInUp' style={styles.hintText}>{spellItem[hintIndex]}</Animatable.Text> : null
+                }
+                <View style={styles.hintAndFeedbackContainer}>
+                    <TouchableOpacity style={styles.hintButton} onPress={giveHint}>
+                        <Text style={styles.hintButtonText}>?</Text>
+                    </TouchableOpacity>
+                    {/* show feedback on correct answer */}
+                    {
+                        showPositiveFeedback ? <Animatable.View animation='tada' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
+                    }
+                    {
+                        showNegativeFeedback ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
+                    }
+                </View>
+                {/* if no items are left to spell, hide input and show RoundEnd */}
+                {
+                    itemsLeft !== 0 ? 
+                    <Animatable.View animation='bounceInUp' style={styles.inputContainer}>
+                        <TextInput 
+                            onSubmitEditing={(event) => handleInputChange(event)}
+                            placeholder='Tap here to spell it!' 
+                            autoCapitalize='none'
+                            autoCompleteType='off'
+                            autoCorrect={false}
+                            ref={textInput}
+                            style={globalStyles.input}
+                        />
+                    </Animatable.View>
+                    : <RoundEnd goBack={goBack} />
+                }
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -180,9 +214,7 @@ const styles = StyleSheet.create({
     },
     feedbackContainer: {
         borderRadius: 10,
-        alignSelf: 'flex-end',
-        marginRight: 15,
-        backgroundColor: 'rgba(245,245,245, 0.8)',
+        backgroundColor: 'rgba(245,245,245, 0.8)'
     },
     positiveFeedback: {
         fontSize: 20,
@@ -198,5 +230,32 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: '90%'
+    },
+    hintAndFeedbackContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '80%'
+    },
+    hintButtonText: {
+        fontSize: 40,
+        fontFamily: 'Varela',
+        color: 'rgba(0,0,0,0.7)'
+    },
+    hintButton: {
+        backgroundColor: 'rgba(242,239,154, 0.6)',
+        width: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        shadowColor: 'black',
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25
+    },
+    hintText: {
+        fontSize: 260,
+        fontFamily: 'Varela',
+        color: 'rgba(0,0,0,0.7)'
     }
 })
