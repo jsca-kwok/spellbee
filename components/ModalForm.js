@@ -150,7 +150,8 @@ const styles = StyleSheet.create({
     wordContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        padding: 10
     },
     inputContainer: {
         height: 370,

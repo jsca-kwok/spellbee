@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
     images:{
         resizeMode: 'contain',
         width: 140,
-        height: 140
+        height: 140,
+        margin: 5
     },
     imageContainer: {
         flex: 1,
