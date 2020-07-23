@@ -166,20 +166,21 @@ export default function Play({ navigation }) {
                     spellItem && showHint ? <Animatable.Text animation='fadeInUp' style={styles.hintText}>{spellItem[hintIndex]}</Animatable.Text> : null
                 }
                 <View style={styles.hintAndFeedbackContainer}>
-                    <Animatable.View animation='bounceInUp'>
-                    <TouchableOpacity style={styles.hintButton} onPress={giveHint}>
-                        <Text style={styles.hintButtonText}>?</Text>
-                    </TouchableOpacity>
-                    </Animatable.View>
+                    {
+                        spellItem ? 
+                        <Animatable.View animation='bounceInUp'>
+                        <TouchableOpacity style={styles.hintButton} onPress={giveHint}>
+                            <Text style={styles.hintButtonText}>?</Text>
+                        </TouchableOpacity>
+                        </Animatable.View>
+                        : null
+                    }
                     {/* show feedback on correct answer */}
                     {
                         showPositiveFeedback ? <Animatable.View animation='tada' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
                     }
                     {
                         showNegativeFeedback ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
-                    }
-                    {
-                        hintError ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={globalStyles.text}>Oops! Choose a picture</Text></Animatable.View> : null
                     }
                 </View>
                 {/* if no items are left to spell, hide input and show RoundEnd */}

@@ -12,7 +12,7 @@ const index = Math.floor(Math.random()*4);
 export default function RoundEnd({ goBack }) {
     return (
         <>
-        <ConfettiCannon style={styles.confettiContainer} count={200} origin={{x: -10, y: 0}} fadeOut={true}/>
+        <ConfettiCannon style={styles.confettiContainer} count={200} origin={{x: -10, y: -10}} fadeOut={true}/>
         <View style={styles.playScene}>
             <Animatable.View style={styles.logoImgContainer} animation='slideOutUp' iterationCount='infinite' direction='alternate'>
                 <Animatable.Image style={styles.logoImg} source={logo} animation='swing' iterationCount='infinite'/>
