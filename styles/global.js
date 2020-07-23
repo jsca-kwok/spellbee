@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export const globalStyles = StyleSheet.create({
     container: {
@@ -9,19 +10,18 @@ export const globalStyles = StyleSheet.create({
     },
     text: {
         fontFamily: 'Varela',
-        fontSize: 14,
-        margin: 5
+        fontSize: wp('5%'),
+        margin: hp('1%')
     },
     images: {
         resizeMode: 'contain',
-        width: 100,
-        height: 100,
-        margin: 5
+        width: wp('25%'),
+        height: hp('15%'),
     },
     input: {
-        padding: 10,
-        margin: 15,
-        fontSize: 20,
+        padding: hp('2%'),
+        margin: hp('3%'),
+        fontSize: hp('3%'),
         color: '#333',
         backgroundColor: 'rgba(245,245,245, 0.8)',
         borderRadius: 10,
@@ -30,7 +30,6 @@ export const globalStyles = StyleSheet.create({
         shadowColor: 'black',
         shadowRadius: 2,
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        elevation: 5,
+        shadowOpacity: 0.25
     }
 })

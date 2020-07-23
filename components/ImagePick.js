@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import defaultImages from '../assets/images/defaultImages';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
 
@@ -53,7 +54,8 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
 const styles = StyleSheet.create({
     deckImg: {
         resizeMode: 'contain',
-        width: 100,
+        width: wp('32%'),
+        height: hp('5%'),
         margin: 0,
         flex: 1
     }

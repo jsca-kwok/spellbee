@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import * as Animatable from 'react-native-animatable';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ImagePick from './ImagePick';
 import WordImagePick from './WordImagePick';
 import { globalStyles } from '../styles/global';
@@ -142,7 +143,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                             )
                         })
                     }
-                    <Icon name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
+                    <Icon size={wp('7%')} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={addInputField}/>
                 </ScrollView>
             </KeyboardAwareScrollView>
             <View style={styles.buttonContainer}>
@@ -177,17 +178,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 50,
+        marginTop: hp('8%')
     },
     wordContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        padding: 10
+        padding: wp('3%')
     },
     inputContainer: {
-        height: 370,
-        marginTop: 15
+        marginTop: hp('1%')
     },
     deckInput: {
         backgroundColor: '#F2EF9A',
@@ -198,36 +198,35 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
-        elevation: 5,
-        fontSize: 20,
+        fontSize: wp('6.5%'),
         fontFamily: 'Varela',
-        padding: 15,
-        width: 240,
-        height: 50
+        padding: hp('2%'),
+        width: wp('70%'),
+        height: hp('8%')
     },
     input: {
-        fontSize: 20,
+        fontSize: wp('6.5%'),
         fontFamily: 'Varela',
-        paddingVertical: 5,
+        paddingVertical: hp('1%'),
         textAlign: 'center'
     },
     buttonContainer: {
        justifyContent: 'space-evenly',
        alignItems: 'center',
-       marginTop: 15,
-       flexDirection: 'row'
+       marginTop: hp('2%'),
+       flexDirection: 'row',
+       marginBottom: hp('1%')
     },
     button: {
-        paddingVertical: 15,
-        marginBottom: 15,
-        width: 120,
+        paddingVertical: hp('2%'),
+        marginBottom: hp('2%'),
+        width: wp('35%'),
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         shadowColor: 'black',
         shadowRadius: 2,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
-        elevation: 5,
         alignItems: 'center'
     }
 })

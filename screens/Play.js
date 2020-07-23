@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity,
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { globalStyles } from '../styles/global';
 import SpellItem from '../components/SpellItem';
 import RoundEnd from '../components/RoundEnd';
@@ -212,33 +213,32 @@ const styles = StyleSheet.create({
     },
     images:{
         resizeMode: 'contain',
-        width: 140,
-        height: 140,
-        margin: 5
+        width: wp('40%'),
+        height: hp('20%'),
+        margin: wp('3%')
     },
     imageContainer: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        marginTop: 20,
-        marginBottom: 20
+        marginVertical: hp('2%'),
     },
     feedbackContainer: {
         borderRadius: 10,
         backgroundColor: 'rgba(245,245,245, 0.8)'
     },
     positiveFeedback: {
-        fontSize: 20,
+        fontSize: hp('3.5%'),
         fontFamily: 'Varela',
         color: '#175B00',
-        padding: 5,
+        padding: hp('1.5%')
     },
     negativeFeedback: {
-        fontSize: 20,
+        fontSize: hp('3.5%'),
         fontFamily: 'Varela',
         color: 'red',
-        padding: 5
+        padding: hp('1.5%')
     },
     inputContainer: {
         width: '90%'
@@ -250,13 +250,13 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     hintButtonText: {
-        fontSize: 40,
+        fontSize: wp('12%'),
         fontFamily: 'Varela',
         color: 'rgba(0,0,0,0.7)'
     },
     hintButton: {
         backgroundColor: 'rgba(242,239,154, 0.6)',
-        width: 50,
+        width: wp('15%'),
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25
     },
     hintText: {
-        fontSize: 260,
+        fontSize: hp('40%'),
         fontFamily: 'Varela',
         color: 'rgba(0,0,0,0.7)'
     }

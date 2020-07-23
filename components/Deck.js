@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function Deck(props) {
     return(
@@ -12,9 +13,9 @@ export default function Deck(props) {
 const styles = StyleSheet.create({
     deck: {
         backgroundColor: '#F2EF9A',
-        width: 130,
-        minHeight: 150,
-        margin: 5,
+        width: wp('40%'),
+        minHeight: hp('28%'),
+        margin: wp('2%'),
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,

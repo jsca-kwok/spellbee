@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { globalStyles } from '../styles/global';
 const logo = require('../assets/images/icons/logo.png');
@@ -41,24 +42,24 @@ const styles = StyleSheet.create({
         flex: 1
     },
     logoImg: {
-        // resizeMode: 'contain',
-        flex: 1,
-        width: 115
+        resizeMode: 'contain',
+        bottom: 250,
+        width: wp('40%'),
+        height: hp('60%')
     },
     text: {
         fontFamily: 'Varela',
-        fontSize: 25, 
+        fontSize: wp('10%')
     },
     button: {
-        padding: 15,
-        marginVertical: 15,
+        padding: wp('5%'),
+        marginVertical: hp('5%'),
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         shadowColor: 'black',
         shadowRadius: 2,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
-        elevation: 5,
         alignItems: 'center'
     }
 })

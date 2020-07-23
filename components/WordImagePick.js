@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import defaultImages from '../assets/images/defaultImages';
@@ -33,11 +34,11 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
             {
                 (() => {
                     if (currentWordImg && currentWordImg.slice(0,4) === 'file') {
-                        return <Image style={styles.deckImg} source={{uri: currentWordImg}} />
+                        return <Image style={styles.wordImg} source={{uri: currentWordImg}} />
                     } else if (wordImg && wordImg.slice(0,4) === 'file') {
-                        return <Image style={styles.deckImg} source={{uri: wordImg}} />
+                        return <Image style={styles.wordImg} source={{uri: wordImg}} />
                     } else {
-                        return <Image style={styles.deckImg} source={defaultImages[defaultWordImg]} />
+                        return <Image style={styles.wordImg} source={defaultImages[defaultWordImg]} />
                     }
                 })()
             }
@@ -46,10 +47,10 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
 }
 
 const styles = StyleSheet.create({
-    deckImg: {
+    wordImg: {
         resizeMode: 'contain',
-        width: 100,
-        height: 50,
+        width: wp('30%'),
+        height: hp('3%'),
         margin: 0,
         flex: 1
     }

@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import { Audio } from 'expo-av';
 import * as Speech from 'expo-speech';
 import * as Animatable from 'react-native-animatable';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { globalStyles } from '../styles/global';
 import Deck from '../components/Deck';
 import ModalForm from '../components/ModalForm';
@@ -163,8 +164,8 @@ export default function Decks({ navigation }) {
             </Modal>
             <View style={styles.iconContainer}>
                 <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
-                <Icon style={styles.addIcon} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
-                <Icon style={styles.settingsIcon} name='ios-settings' type='ionicon' color='#F2822D' onPress={() => setSettingsModalOpen(!settingsModalOpen)}/>
+                <Icon style={styles.addIcon} size={wp('7%')} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
+                <Icon style={styles.settingsIcon} size={wp('7%')} name='ios-settings' type='ionicon' color='#F2822D' onPress={() => setSettingsModalOpen(!settingsModalOpen)}/>
             </View>
             <Animatable.View animation='bounceIn'>
                 <FlatList   
@@ -216,19 +217,19 @@ export default function Decks({ navigation }) {
 const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
-        padding: 20,
+        padding: hp('3%'),
         alignItems: 'center',
         backgroundColor: '#F2E155'
     },
     iconContainer: {
-        paddingBottom: 15,
+        paddingBottom: hp('3%'),
         flexDirection: 'row',
         alignItems: 'center'
     },
     searchInput: {
-        padding: 10,
-        marginRight: 20,
-        fontSize: 18,
+        padding: hp('2%'),
+        marginRight: wp('6%'),
+        fontSize: hp('3%'),
         color: '#333',
         backgroundColor: 'rgba(245,245,245, 0.8)',
         borderRadius: 10,
@@ -240,9 +241,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25
     },
     addIcon: {
-        marginRight: 10
+        marginRight: wp('3%')
     },
     deckContainer: {
-        marginBottom: 50
+        marginBottom: hp('8%')
     }
 })

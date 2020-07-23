@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import * as Google from 'expo-google-app-auth';
 import * as Animatable from 'react-native-animatable';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Home from './Home';
 const googleSignIn = require('../assets/images/icons/googleSignIn.png');
 const logo = require('../assets/images/icons/logo.png');
@@ -68,18 +69,18 @@ const styles = StyleSheet.create({
     logoText: {
        fontFamily: 'Varela',
        fontWeight: '900',
-       fontSize: 55,
+       fontSize: hp('10%'),
        color: '#444',
     },
     logoImg: {
         resizeMode: 'contain',
-        height: 200,
-        margin: 40,
+        height: hp('35%'),
+        margin: hp('10%'),
         marginBottom: 0
     },
     signInButton: {
-        marginTop: 60,
-        width: 190,
+        marginTop: hp('10%'),
+        width: hp('35%'),
         resizeMode: 'contain'
     }
 })

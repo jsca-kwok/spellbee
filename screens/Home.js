@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { globalStyles } from '../styles/global';
 
 export default function Home({ navigation, userName, signOutWithGoogleAsync, userId }) {
@@ -30,8 +31,8 @@ export default function Home({ navigation, userName, signOutWithGoogleAsync, use
 const styles = StyleSheet.create({
     startButton: {
         backgroundColor: '#f5f5f5',
-        margin: 25,
-        padding: 15,
+        margin: hp('5%'),
+        padding: hp('2%'),
         borderRadius: 10,
         shadowColor: 'black',
         shadowRadius: 2,
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     },
     notYou: {
         fontFamily: 'Varela',
-        fontSize: 14,
+        fontSize: hp('2.5%'),
         textDecorationStyle: 'solid',
         textDecorationLine: 'underline'
     }

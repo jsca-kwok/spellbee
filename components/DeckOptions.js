@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { globalStyles } from '../styles/global';
 
 export default function DeckOptions({ toEditDeck, confirmDeleteDeck, setSelectedDeckData, setModalOpen, modalOpen, setEditStatus, editStatus }) {
@@ -27,9 +28,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button: {
-        paddingVertical: 15,
-        marginBottom: 15,
-        width: 90,
+        paddingVertical: hp('2%'),
+        marginBottom: hp('2%'),
+        width: wp('30%'),
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         shadowColor: 'black',
