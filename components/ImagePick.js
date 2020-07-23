@@ -2,7 +2,9 @@ import React from 'react';
 import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import Constants from 'expo-constants';
+import animalImages from '../assets/images/animals/animalImages';
+import coloursImages from '../assets/images/colours/coloursImages';
+import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
 import defaultImages from '../assets/images/defaultImages';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -45,7 +47,7 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
             {/* set deckImage, use default if none are selected */}
             {
                 deckImg && deckImg.slice(0,4) === 'file' ? <Image style={styles.deckImg} source={{uri: deckImg}} />
-                : <Image style={styles.deckImg} source={defaultImages[defaultDeckImg]} />
+                : <Image style={styles.deckImg} source={animalImages[defaultDeckImg] || fruitsAndVegImages[defaultDeckImg] || coloursImages[defaultDeckImg] || defaultImages[defaultDeckImg]} />
             }
         </TouchableOpacity>
     )

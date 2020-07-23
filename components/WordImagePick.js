@@ -4,6 +4,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import defaultImages from '../assets/images/defaultImages';
+import animalImages from '../assets/images/animals/animalImages';
+import coloursImages from '../assets/images/colours/coloursImages';
+import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
 
 export default function ImagePick({ defaultWordImg, index, addImage, changeImage, currentWordImg }) {
     const [wordImg, setWordImg] = useState(null);
@@ -38,7 +41,7 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
                     } else if (wordImg && wordImg.slice(0,4) === 'file') {
                         return <Image style={styles.wordImg} source={{uri: wordImg}} />
                     } else {
-                        return <Image style={styles.wordImg} source={defaultImages[defaultWordImg]} />
+                        return <Image style={styles.wordImg} source={animalImages[currentWordImg] || coloursImages[currentWordImg] || fruitsAndVegImages[currentWordImg] || defaultImages[defaultWordImg]} />
                     }
                 })()
             }

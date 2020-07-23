@@ -27,6 +27,7 @@ export default function Play({ navigation }) {
     const [hintIndex, setHintIndex] = useState(-1);
     const [showHint, setShowHint] = useState(false);
     const [hintError, setHintError] = useState(false);
+    const [choosePicturePrompt, setChoosePicturePrompt] = useState(false);
 
     // set ref to textinput
     const textInput = React.createRef();
@@ -48,6 +49,7 @@ export default function Play({ navigation }) {
         sayWord(word);
         setSpellItem(word);
         setHintIndex(-1);
+        setChoosePicturePrompt(false);
         setShowPositiveFeedback(false);
         setShowNegativeFeedback(false);
     }
@@ -62,8 +64,11 @@ export default function Play({ navigation }) {
         // find word to remove if spelling is correct
         const takeOutOfPlay = deckWords.find(word => word.word === spellItem);
         const takeOutIndex = deckWords.indexOf(takeOutOfPlay);
-        // remove word and set existing words as words in play
-        if (spellItem === input) {
+        if (!spellItem) {
+            setChoosePicturePrompt(true);
+            textInput.current.clear();
+        } else if (spellItem === input) {
+            // remove word and set existing words as words in play
             deckWords.splice(takeOutIndex, 1);
             setDeckWords(deckWords);
             setSpellItem(null);
@@ -178,10 +183,25 @@ export default function Play({ navigation }) {
                     }
                     {/* show feedback on correct answer */}
                     {
-                        showPositiveFeedback ? <Animatable.View animation='tada' style={styles.feedbackContainer}><Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text></Animatable.View> : null
+                        showPositiveFeedback ? 
+                        <Animatable.View animation='tada' style={styles.feedbackContainer}>
+                            <Text style={styles.positiveFeedback}>{positiveFeedback[index]}</Text>
+                        </Animatable.View> 
+                        : null
                     }
                     {
-                        showNegativeFeedback ? <Animatable.View animation='shake' style={styles.feedbackContainer}><Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text></Animatable.View> : null
+                        showNegativeFeedback ? 
+                        <Animatable.View animation='shake' style={styles.feedbackContainer}>
+                            <Text style={styles.negativeFeedback}>{negativeFeedback[index]}</Text>
+                        </Animatable.View>
+                        : null
+                    }
+                    {
+                        choosePicturePrompt ?
+                        <Animatable.View animation='shake' style={styles.feedbackContainer}>
+                        <Text style={styles.choosePicturePrompt}>Choose a picture first</Text>
+                        </Animatable.View>
+                        : null
                     }
                 </View>
                 {/* if no items are left to spell, hide input and show RoundEnd */}
@@ -238,6 +258,12 @@ const styles = StyleSheet.create({
         fontSize: hp('3.5%'),
         fontFamily: 'Varela',
         color: 'red',
+        padding: hp('1.5%')
+    },
+    choosePicturePrompt: {
+        fontSize: hp('3.5%'),
+        fontFamily: 'Varela',
+        color: 'black',
         padding: hp('1.5%')
     },
     inputContainer: {
