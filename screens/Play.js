@@ -7,6 +7,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { globalStyles } from '../styles/global';
 import SpellItem from '../components/SpellItem';
 import RoundEnd from '../components/RoundEnd';
+import Tutorial from '../components/Tutorial';
 import animalImages from '../assets/images/animals/animalImages';
 import coloursImages from '../assets/images/colours/coloursImages';
 import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
@@ -65,6 +66,8 @@ export default function Play({ navigation }) {
         const takeOutOfPlay = deckWords.find(word => word.word === spellItem);
         const takeOutIndex = deckWords.indexOf(takeOutOfPlay);
         if (!spellItem) {
+            setShowNegativeFeedback(false);
+            setShowPositiveFeedback(false);
             setChoosePicturePrompt(true);
             textInput.current.clear();
         } else if (spellItem === input) {
@@ -146,9 +149,21 @@ export default function Play({ navigation }) {
         navigation.goBack();
     }
 
+    // show tutorial
+    let showTutorial = navigation.state.params.showTutorial;
+
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
             <KeyboardAvoidingView style={styles.playScene} behavior='padding' keyboardVerticalOffset={55}>
+                {
+                    showTutorial && itemsLeft !== 0 ?
+                    <View style={styles.tutorialContainer}>
+                        <Animatable.View animation='zoomInLeft' delay={1000} easing='ease-in'>
+                            <Tutorial tutorialMessage='Buzz! Choose a picture' />
+                        </Animatable.View>
+                    </View>
+                    : null
+                }
                 <Animatable.View animation='flipInY' style={styles.imageContainer}>
                     {
                         deckWords.map(word => {
@@ -235,14 +250,14 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: wp('40%'),
         height: hp('20%'),
-        margin: wp('3%')
+        margin: wp('0.5%')
     },
     imageContainer: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        marginVertical: hp('2%'),
+        marginVertical: hp('0.5%'),
     },
     feedbackContainer: {
         borderRadius: 10,

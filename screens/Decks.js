@@ -12,6 +12,7 @@ import ModalForm from '../components/ModalForm';
 import ModalEdit from '../components/ModalEdit';
 import ModalSettings from '../components/ModalSettings';
 import DeckOptions from '../components/DeckOptions';
+import Tutorial from '../components/Tutorial';
 import animalImages from '../assets/images/animals/animalImages';
 import coloursImages from '../assets/images/colours/coloursImages';
 import fruitsAndVegImages from '../assets/images/fruitsAndVeg/fruitsAndVegImages';
@@ -32,6 +33,7 @@ export default function Decks({ navigation }) {
     const [voicePitch, setVoicePitch] = useState(1);
     const [voiceRate, setVoiceRate] = useState(0);
     const [isEnabled, setIsEnabled] = useState(false);
+    const [showTutorial, setShowTutorial] = useState(true);
 
     const userId = navigation.state.params.userId;
 
@@ -133,84 +135,95 @@ export default function Decks({ navigation }) {
     }
     
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.pageContainer}>
-            {/* modal for adding/editing vocab decks */}
-            <Modal animationType='slide' visible={modalOpen}>
-                {
-                    // if edit button clicked and select data is ready, render ModalEdit
-                    !editStatus && selectedDeckData === null ? 
-                    <ModalForm setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} userId={userId}/> 
-                    : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} userId={userId}/>
-                }
-            </Modal>
-            {/* modal for game settings  */}
-            <Modal animationType='slide' visible={settingsModalOpen}>
-                <ModalSettings 
-                    toggleMusic={toggleMusic} 
-                    musicStatus={musicStatus} 
-                    setMusicStatus={setMusicStatus} 
-                    setSettingsModalOpen={setSettingsModalOpen} 
-                    soundEffectsStatus={soundEffectsStatus} 
-                    setSoundEffectsStatus={setSoundEffectsStatus} 
-                    sayWord={sayWord} 
-                    newRate={newRate} 
-                    newPitch={newPitch}
-                    voiceRate={voiceRate}
-                    voicePitch={voicePitch}
-                    toggleSwitch={toggleSwitch}
-                    isEnabled={isEnabled}
-                />
-            </Modal>
-            <View style={styles.iconContainer}>
-                <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
-                <Icon style={styles.addIcon} size={wp('7%')} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
-                <Icon style={styles.settingsIcon} size={wp('7%')} name='ios-settings' type='ionicon' color='#F2822D' onPress={() => setSettingsModalOpen(!settingsModalOpen)}/>
+        <>
+        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+            <View style={styles.pageContainer}>
+                {/* modal for adding/editing vocab decks */}
+                <Modal animationType='slide' visible={modalOpen}>
+                    {
+                        // if edit button clicked and select data is ready, render ModalEdit
+                        !editStatus && selectedDeckData === null ? 
+                        <ModalForm setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} setSelectedDeckData={setSelectedDeckData} userId={userId}/> 
+                        : <ModalEdit setSelectedDeckData={setSelectedDeckData} selectedDeckData={selectedDeckData} setModalOpen={setModalOpen} getDecks={getDecks} setEditStatus={setEditStatus} userId={userId}/>
+                    }
+                </Modal>
+                {/* modal for game settings  */}
+                <Modal animationType='slide' visible={settingsModalOpen}>
+                    <ModalSettings 
+                        toggleMusic={toggleMusic} 
+                        musicStatus={musicStatus} 
+                        setMusicStatus={setMusicStatus} 
+                        setSettingsModalOpen={setSettingsModalOpen} 
+                        soundEffectsStatus={soundEffectsStatus} 
+                        setSoundEffectsStatus={setSoundEffectsStatus} 
+                        sayWord={sayWord} 
+                        newRate={newRate} 
+                        newPitch={newPitch}
+                        voiceRate={voiceRate}
+                        voicePitch={voicePitch}
+                        toggleSwitch={toggleSwitch}
+                        isEnabled={isEnabled}
+                    />
+                </Modal>
+                <View style={styles.iconContainer}>
+                    <TextInput style={styles.searchInput} placeholder='Search' onChangeText={(text) => searchDeck(text)} />
+                    <Icon style={styles.addIcon} size={wp('7%')} name='ios-add-circle' type='ionicon' color='#F2822D' onPress={() => {setModalOpen(!modalOpen); setEditStatus(false)}} />
+                    <Icon style={styles.settingsIcon} size={wp('7%')} name='ios-settings' type='ionicon' color='#F2822D' onPress={() => setSettingsModalOpen(!settingsModalOpen)}/>
+                </View>
+                <Animatable.View animation='bounceIn'>
+                    <FlatList   
+                        style={styles.deckContainer}
+                        showsVerticalScrollIndicator={false} 
+                        numColumns={2}
+                        data={searchedDecks}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity 
+                                key={item.id}
+                                onPress={() => navigation.navigate('Play', {item, soundEffectsStatus: soundEffectsStatus, voicePitch: voicePitch, voiceRate: voiceRate, showTutorial: showTutorial})}
+                                onLongPress={() => {
+                                    setSelectedDeck(item.id);
+                                    setEditStatus(!editStatus);
+                                    setSelectedDeckData(item);
+                            }}>
+                                <Animatable.View animation='flipInX'>
+                                    <Deck>
+                                        <Text style={globalStyles.text}>{item.deck}</Text>
+                                        {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
+                                        {
+                                            item.deckImg.slice(0,4) === 'file' ? <Image style={globalStyles.images} source={{uri: item.deckImg}} />
+                                            : <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
+                                        }
+                                        {
+                                            // show additional options to edit and delete on longpress
+                                            item.id === selectedDeck && editStatus ? 
+                                            <DeckOptions 
+                                                toEditDeck={selectedDeck} 
+                                                confirmDeleteDeck={confirmDeleteDeck} 
+                                                setSelectedDeckData={setSelectedDeckData}
+                                                setModalOpen={setModalOpen}
+                                                modalOpen={modalOpen}
+                                                setEditStatus={setEditStatus}
+                                                editStatus={editStatus}
+                                            /> : null
+                                        }
+                                    </Deck>
+                                </Animatable.View>
+                            </TouchableOpacity>
+                        )}
+                    />
+                </Animatable.View>
             </View>
-            <Animatable.View animation='bounceIn'>
-                <FlatList   
-                    style={styles.deckContainer}
-                    showsVerticalScrollIndicator={false} 
-                    numColumns={2}
-                    data={searchedDecks}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity 
-                            key={item.id}
-                            onPress={() => navigation.navigate('Play', {item, soundEffectsStatus: soundEffectsStatus, voicePitch: voicePitch, voiceRate: voiceRate})}
-                            onLongPress={() => {
-                                setSelectedDeck(item.id);
-                                setEditStatus(!editStatus);
-                                setSelectedDeckData(item);
-                        }}>
-                            <Animatable.View animation='flipInX'>
-                                <Deck>
-                                    <Text style={globalStyles.text}>{item.deck}</Text>
-                                    {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
-                                    {
-                                        item.deckImg.slice(0,4) === 'file' ? <Image style={globalStyles.images} source={{uri: item.deckImg}} />
-                                        : <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
-                                    }
-                                    {
-                                        // show additional options to edit and delete on longpress
-                                        item.id === selectedDeck && editStatus ? 
-                                        <DeckOptions 
-                                            toEditDeck={selectedDeck} 
-                                            confirmDeleteDeck={confirmDeleteDeck} 
-                                            setSelectedDeckData={setSelectedDeckData}
-                                            setModalOpen={setModalOpen}
-                                            modalOpen={modalOpen}
-                                            setEditStatus={setEditStatus}
-                                            editStatus={editStatus}
-                                        /> : null
-                                    }
-                                </Deck>
-                            </Animatable.View>
-                        </TouchableOpacity>
-                    )}
-                />
-            </Animatable.View>
-        </View>
         </TouchableWithoutFeedback>
+        {
+            showTutorial ? 
+            <View style={styles.tutorialContainer}>
+                <Animatable.View animation='zoomInLeft' delay={1000} easing='ease-in'>
+                    <Tutorial tutorialMessage='Buzz! Choose a theme'/>
+                </Animatable.View>
+            </View>
+            : null
+        }
+        </>
     );
 }
 
@@ -245,5 +258,8 @@ const styles = StyleSheet.create({
     },
     deckContainer: {
         marginBottom: hp('8%')
+    },
+    tutorialContainer: {
+        backgroundColor: '#F2E155'
     }
 })
