@@ -7,7 +7,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { Audio } from 'expo-av';
 import { globalStyles } from '../styles/global';
 
-export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus, newRate, newPitch, voiceRate, voicePitch, toggleSwitch, isEnabled }) {
+export default function ModalSettings({ musicStatus, toggleMusic, setSettingsModalOpen, soundEffectsStatus, setSoundEffectsStatus, newRate, newPitch, voiceRate, voicePitch, toggleReminder, isReminderEnabled, showTutorial, toggleTutorial }) {
 
     // play sound effect during voice settings
     const playSound = async() => {
@@ -21,7 +21,7 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
     // screen time reminder
     const screenTimeReminder = (status) => {
         if (status) {
-            handle = setInterval(screenAlert, 5000);
+            handle = setInterval(screenAlert, 600000);
             Alert.alert('Screen Time Reminder Enabled', 'We will remind you to rest after 10 minutes of screen time', [
                 {
                     text: "Got it",
@@ -30,7 +30,6 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
             ]);
         }
         else {
-            console.log(handle);
             clearInterval(handle);
         }
     }
@@ -71,7 +70,7 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                 <View style={styles.settingContainer}>
                     <Text style={styles.settingText}>Voice Pitch</Text>
                     <Slider 
-                        style={{width: wp('30%'), height: hp('8%')}} 
+                        style={{width: wp('30%'), height: hp('6%')}} 
                         maximumValue={2} 
                         minimumTrackTintColor='#F2822D' 
                         step={0.5} 
@@ -81,7 +80,7 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                 <View style={styles.settingContainer}>
                     <Text style={styles.settingText}>Voice Rate</Text>
                     <Slider 
-                        style={{width: wp('30%'), height: hp('8%')}} 
+                        style={{width: wp('30%'), height: hp('6%')}} 
                         maximumValue={1.5} 
                         minimumTrackTintColor='#F2822D' 
                         step={0.5} 
@@ -94,11 +93,21 @@ export default function ModalSettings({ musicStatus, toggleMusic, setSettingsMod
                         style={styles.switch}
                         trackColor={{false: '#F5F5F5', true: '#F2822D'}} 
                         ios_backgroundColor='#F5F5F5' 
-                        value={isEnabled} 
+                        value={isReminderEnabled} 
                         onValueChange={() => {
-                            console.log('111', isEnabled)
-                        toggleSwitch(); 
-                        screenTimeReminder(!isEnabled);
+                            toggleReminder(); 
+                            screenTimeReminder(!isReminderEnabled);
+                    }}/>
+                </View>
+                <View style={styles.settingContainer}>
+                    <Text style={styles.settingText}>Tutorial</Text>
+                    <Switch 
+                        style={styles.switch}
+                        trackColor={{false: '#F5F5F5', true: '#F2822D'}} 
+                        ios_backgroundColor='#F5F5F5' 
+                        value={showTutorial} 
+                        onValueChange={() => {
+                            toggleTutorial(); 
                     }}/>
                 </View>
             </Animatable.View>
@@ -151,7 +160,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: hp('0.5%'),
-        marginHorizontal: wp('6%')
+        marginHorizontal: wp('6%'),
+        marginBottom: hp('1%')
     },
     settingTitleText: {
         fontSize: wp('6%'),
@@ -164,7 +174,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        marginTop: hp('12%'),
+        marginTop: hp('5%'),
         flexDirection: 'row'
     },
     button: {

@@ -31,7 +31,7 @@ export default function Home({ navigation, userName, signOutWithGoogleAsync, use
 const styles = StyleSheet.create({
     startButton: {
         backgroundColor: '#f5f5f5',
-        margin: hp('5%'),
+        margin: wp('5%'),
         padding: hp('2%'),
         borderRadius: 10,
         shadowColor: 'black',

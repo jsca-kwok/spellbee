@@ -32,7 +32,7 @@ export default function Decks({ navigation }) {
     const [soundEffectsStatus, setSoundEffectsStatus] = useState(true);
     const [voicePitch, setVoicePitch] = useState(1);
     const [voiceRate, setVoiceRate] = useState(0);
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [isReminderEnabled, setReminderIsEnabled] = useState(false);
     const [showTutorial, setShowTutorial] = useState(true);
 
     const userId = navigation.state.params.userId;
@@ -130,8 +130,13 @@ export default function Decks({ navigation }) {
     }
 
     // toggle switch for screentime reminder
-    const toggleSwitch = () => {
-        setIsEnabled(!isEnabled);
+    const toggleReminder = () => {
+        setReminderIsEnabled(!isReminderEnabled);
+    }
+
+    // toggle switch for tutorial
+    const toggleTutorial = () => {
+        setShowTutorial(!showTutorial);
     }
     
     return (
@@ -161,8 +166,11 @@ export default function Decks({ navigation }) {
                         newPitch={newPitch}
                         voiceRate={voiceRate}
                         voicePitch={voicePitch}
-                        toggleSwitch={toggleSwitch}
-                        isEnabled={isEnabled}
+                        toggleReminder={toggleReminder}
+                        isReminderEnabled={isReminderEnabled}
+                        showTutorial={showTutorial}
+                        setShowTutorial={setShowTutorial}
+                        toggleTutorial={toggleTutorial}
                     />
                 </Modal>
                 <View style={styles.iconContainer}>

@@ -13,7 +13,7 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
     const selectPicture = async() => {
         // confirm permission before opening gallery
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ aspect: 1, allowsEditing: true });
+        const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({ aspect: [4,3], quality: 1, allowsEditing: true });
         if (cancelled) {
             Alert.alert('Oops!', 'Requires access to gallery to choose your own image', [
                 {
@@ -25,6 +25,7 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
         setDeckImg(uri);
     }
 
+    // take photo function - does not work on simulator
     // const takePicture = async() => {
     //     if (Constants.platform.ios) {
     //         await Permissions.askAsync(Permissions.CAMERA_ROLL);
