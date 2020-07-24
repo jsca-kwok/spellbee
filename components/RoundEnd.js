@@ -10,7 +10,9 @@ const logo = require('../assets/images/icons/logo.png');
 const feedback = ['Fantastic Job!', 'Spelling Genius!', 'Brilliant!', 'Most Excellent!'];
 const index = Math.floor(Math.random()*4);
 
-export default function RoundEnd({ goBack }) {
+export default function RoundEnd({ goBack, calculateAccuracy, correct, attempts }) {
+    // calculate accuracy
+    const accuracyResult = Math.floor(calculateAccuracy(correct, attempts));
     return (
         <>
         <ConfettiCannon style={styles.confettiContainer} count={200} origin={{x: -10, y: -10}} fadeOut={true}/>
@@ -18,6 +20,7 @@ export default function RoundEnd({ goBack }) {
             <Animatable.View style={styles.logoImgContainer} animation='slideOutUp' iterationCount='infinite' direction='alternate'>
                 <Animatable.Image style={styles.logoImg} source={logo} animation='swing' iterationCount='infinite'/>
             </Animatable.View> 
+            <Animatable.Text animation='flash' style={styles.text}>{accuracyResult}%</Animatable.Text>
             <Text style={styles.text}>{feedback[index]}</Text>
             <Animatable.View animation='pulse' iterationCount='infinite'>
                 <TouchableOpacity style={styles.button} onPress={() => goBack() }>
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
     },
     logoImg: {
         resizeMode: 'contain',
-        bottom: 250,
+        bottom: 230,
         width: wp('40%'),
         height: hp('60%')
     },

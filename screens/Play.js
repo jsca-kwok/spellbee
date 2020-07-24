@@ -29,6 +29,8 @@ export default function Play({ navigation }) {
     const [showHint, setShowHint] = useState(false);
     const [hintError, setHintError] = useState(false);
     const [choosePicturePrompt, setChoosePicturePrompt] = useState(false);
+    const [correct, setCorrect] = useState(0);
+    const [attempts, setAttempts] = useState(0);
 
     // set ref to textinput
     const textInput = React.createRef();
@@ -65,24 +67,37 @@ export default function Play({ navigation }) {
         // find word to remove if spelling is correct
         const takeOutOfPlay = deckWords.find(word => word.word === spellItem);
         const takeOutIndex = deckWords.indexOf(takeOutOfPlay);
+        // if no picture is chosen and user attempts to submit
         if (!spellItem) {
             setShowNegativeFeedback(false);
             setShowPositiveFeedback(false);
             setChoosePicturePrompt(true);
             textInput.current.clear();
+        // correct spelling
         } else if (spellItem === input) {
             // remove word and set existing words as words in play
             deckWords.splice(takeOutIndex, 1);
             setDeckWords(deckWords);
             setSpellItem(null);
-            // clear input when spelling is correct
+            // clear input when spelling is correct, decrease items left
             textInput.current.clear();
+            // decrease items left 
             const count = itemsLeft - 1;
             setItemsLeft(count);
+            // reset hints
             setHintIndex(0);
+            // set attempts and correct
+            const newAttemptCount = attempts + 1;
+            const newCorrectCount = correct + 1;
+            setAttempts(newAttemptCount);
+            setCorrect(newCorrectCount);
+        // incorrect spelling
         } else {
             playSound('incorrect');
             setShowNegativeFeedback(true);
+            // increase attempts
+            const newAttemptCount = attempts + 1;
+            setAttempts(newAttemptCount);
         }
         // do not show feedback for last correct answer
         if (spellItem === input && itemsLeft !== 1) {
@@ -94,6 +109,11 @@ export default function Play({ navigation }) {
             setShowNegativeFeedback(false);
             playSound('complete');
         }
+    }
+
+    // calculate accuracy
+    const calculateAccuracy = (correct, attempts) => {
+        return (correct/attempts*100);
     }
 
     // play sound effect only if game settings have sfx toggled on
@@ -149,7 +169,7 @@ export default function Play({ navigation }) {
         navigation.goBack();
     }
 
-    // show tutorial
+    // grab tutorial status
     let showTutorial = navigation.state.params.showTutorial;
 
     return (
@@ -233,7 +253,7 @@ export default function Play({ navigation }) {
                             style={globalStyles.input}
                         />
                     </Animatable.View>
-                    : <RoundEnd goBack={goBack} />
+                    : <RoundEnd goBack={goBack} calculateAccuracy={calculateAccuracy} correct={correct} attempts={attempts}/>
                 }
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
