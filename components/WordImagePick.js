@@ -51,9 +51,9 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
 
 const styles = StyleSheet.create({
     wordImg: {
-        width: wp('20%'),
+        width: wp('15%'),
         height: hp('5%'),
-        marginHorizontal: wp('2%'),
+        marginHorizontal: wp('5%'),
         flex: 1,
         overflow: 'hidden',
         borderRadius: 10

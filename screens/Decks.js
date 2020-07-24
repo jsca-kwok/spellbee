@@ -198,7 +198,7 @@ export default function Decks({ navigation }) {
                                         <Text style={globalStyles.text}>{item.deck}</Text>
                                         {/* if the deckImg starts with 'file', use the user uploaded image - else use default */}
                                         {
-                                            item.deckImg.slice(0,4) === 'file' ? <Image style={globalStyles.images} source={{uri: item.deckImg}} />
+                                            item.deckImg.slice(0,4) === 'file' ? <Image style={styles.userImage} source={{uri: item.deckImg}} />
                                             : <Image style={globalStyles.images} source={defaultImages[item.deckImg] || animalImages[item.deckImg] || fruitsAndVegImages[item.deckImg] || coloursImages[item.deckImg]} />
                                         }
                                         {
@@ -269,5 +269,11 @@ const styles = StyleSheet.create({
     },
     tutorialContainer: {
         backgroundColor: '#F2E155'
+    },
+    userImage: {
+        width: wp('25%'),
+        height: hp('15%'),
+        overflow: 'hidden',
+        borderRadius: 10
     }
 })

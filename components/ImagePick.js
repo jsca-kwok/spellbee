@@ -56,7 +56,7 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
 
 const styles = StyleSheet.create({
     deckImg: {
-        width: wp('20%'),
+        width: wp('15%'),
         height: hp('5%'),
         marginHorizontal: wp('8%'),
         flex: 1,

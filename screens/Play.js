@@ -192,7 +192,7 @@ export default function Play({ navigation }) {
                                     <TouchableOpacity onPress={() => {handlePress(word.word)}}>
                                         <SpellItem style={styles.spellItem}>
                                             {
-                                                word.wordImg && word.wordImg.slice(0,4) === 'file' ? <Image style={styles.images} source={{uri: word.wordImg}} />
+                                                word.wordImg && word.wordImg.slice(0,4) === 'file' ? <Image style={styles.userImages} source={{uri: word.wordImg}} />
                                                 : <Image style={styles.images} source={defaultImages[word.wordImg] || animalImages[word.word] || coloursImages[word.word] || fruitsAndVegImages[word.word]} />
                                             }
                                         </SpellItem>
@@ -266,11 +266,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#7ACDF2',
         alignItems: 'center'
     },
+    userImages: {
+        width: wp('40%'),
+        height: hp('20%'),
+        margin: wp('0.5%'),
+        overflow: 'hidden',
+        borderRadius: 10
+    },
     images:{
         resizeMode: 'contain',
         width: wp('40%'),
         height: hp('20%'),
-        margin: wp('0.5%')
+        margin: wp('0.5%'),
+
     },
     imageContainer: {
         flex: 1,
