@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, Alert, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import animalImages from '../assets/images/animals/animalImages';
@@ -56,10 +56,11 @@ export default function ImagePick({ defaultDeckImg, deckImg, setDeckImg }) {
 
 const styles = StyleSheet.create({
     deckImg: {
-        resizeMode: 'contain',
-        width: wp('32%'),
+        width: wp('20%'),
         height: hp('5%'),
-        margin: 0,
-        flex: 1
+        marginHorizontal: wp('8%'),
+        flex: 1,
+        overflow: 'hidden',
+        borderRadius: 10
     }
 })

@@ -51,10 +51,11 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
 
 const styles = StyleSheet.create({
     wordImg: {
-        resizeMode: 'contain',
-        width: wp('30%'),
-        height: hp('3%'),
-        margin: 0,
-        flex: 1
+        width: wp('20%'),
+        height: hp('5%'),
+        marginHorizontal: wp('2%'),
+        flex: 1,
+        overflow: 'hidden',
+        borderRadius: 10
     }
 })
