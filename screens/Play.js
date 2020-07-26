@@ -136,7 +136,7 @@ export default function Play({ navigation }) {
         } else if (soundEffectsStatus && sound === 'complete') {
             const completeFX = new Audio.Sound();
             await completeFX.loadAsync(
-                require('../assets/sounds/wand.wav')
+                require('../assets/sounds/complete.wav')
             )
             completeFX.replayAsync();
         }
