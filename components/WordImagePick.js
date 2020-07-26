@@ -36,10 +36,10 @@ export default function ImagePick({ defaultWordImg, index, addImage, changeImage
             {/* set image based on condition, use default if none are selected. invoke this function right away */}
             {
                 (() => {
-                    if (currentWordImg && currentWordImg.slice(0,4) === 'file') {
+                    if (wordImg && wordImg.slice(0,4) === 'file') {
+                    return <Image style={styles.wordImg} source={{uri: wordImg}} />
+                    } else if (currentWordImg && currentWordImg.slice(0,4) === 'file') {
                         return <Image style={styles.wordImg} source={{uri: currentWordImg}} />
-                    } else if (wordImg && wordImg.slice(0,4) === 'file') {
-                        return <Image style={styles.wordImg} source={{uri: wordImg}} />
                     } else {
                         return <Image style={styles.wordImg} source={animalImages[currentWordImg] || coloursImages[currentWordImg] || fruitsAndVegImages[currentWordImg] || defaultImages[defaultWordImg]} />
                     }

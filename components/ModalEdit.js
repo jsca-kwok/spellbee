@@ -49,14 +49,26 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
     // change word
     const changeWord = (i, text) => {
         const values = [...inputFields];
-        values[i].word = text;
+        const wordId = values[i].wordId;
+        const wordImg = values[i].wordImg;
+        values.splice(i, 1, {
+            word: text,
+            wordId: wordId,
+            wordImg: wordImg
+        })
         setInputFields(values);
     }
 
     // change image
     const changeImage = (i, wordImg) => {
         const values = [...inputFields];
-        values[i].wordImg = wordImg;
+        const wordId = values[i].wordId;
+        const word = values[i].word;
+        values.splice(i, 1, {
+            word: word,
+            wordId: wordId,
+            wordImg: wordImg
+        })
         setInputFields(values);
     }
 
@@ -74,8 +86,8 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                     style: "cancel"
                 }
             ])
-        } else if (realWords.length < 5) {
-            Alert.alert("Oops!", "Please add at least 5 words", [
+        } else if (realWords.length < 6) {
+            Alert.alert("Oops!", "Please add at least 6 words", [
                 {
                     text: "Got it",
                     style: "cancel"
