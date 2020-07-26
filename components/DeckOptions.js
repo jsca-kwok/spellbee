@@ -25,7 +25,8 @@ export default function DeckOptions({ toEditDeck, confirmDeleteDeck, setSelected
 const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: hp('2%')
     },
     button: {
         paddingVertical: hp('2%'),

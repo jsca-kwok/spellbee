@@ -95,6 +95,7 @@ export default function Play({ navigation }) {
         } else {
             playSound('incorrect');
             setShowNegativeFeedback(true);
+            textInput.current.clear();
             // increase attempts
             const newAttemptCount = attempts + 1;
             setAttempts(newAttemptCount);
@@ -321,7 +322,7 @@ const styles = StyleSheet.create({
     hintButtonText: {
         fontSize: wp('12%'),
         fontFamily: 'Varela',
-        color: 'rgba(0,0,0,0.7)'
+        color: 'black'
     },
     hintButton: {
         backgroundColor: 'rgba(242,239,154, 0.6)',
@@ -337,6 +338,9 @@ const styles = StyleSheet.create({
     hintText: {
         fontSize: hp('40%'),
         fontFamily: 'Varela',
-        color: 'rgba(0,0,0,0.7)'
+        color: 'rgba(0,0,0,0.7)',
+        position: 'absolute',
+        textShadowColor: 'white',
+        textShadowRadius: 7
     }
 })

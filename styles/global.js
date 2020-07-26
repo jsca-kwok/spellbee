@@ -16,7 +16,7 @@ export const globalStyles = StyleSheet.create({
     images: {
         resizeMode: 'contain',
         width: wp('25%'),
-        height: hp('15%'),
+        height: hp('15%')
     },
     input: {
         padding: hp('2%'),
