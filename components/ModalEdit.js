@@ -51,11 +51,18 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
         const values = [...inputFields];
         const wordId = values[i].wordId;
         const wordImg = values[i].wordImg;
-        values.splice(i, 1, {
-            word: text,
-            wordId: wordId,
-            wordImg: wordImg
-        })
+        // if no text, remove word obj from array
+        if (!text) {
+            values.splice(i, 1);
+            selectedDeckData.words.splice(i, 1);
+        // if there is text, ,replace word obj in array
+        } else {
+            values.splice(i, 1, {
+                word: text,
+                wordId: wordId,
+                wordImg: wordImg
+            })
+        }
         setInputFields(values);
     }
 
@@ -98,7 +105,7 @@ export default function ModalEdit({ setModalOpen, getDecks, setSelectedDeckData,
                 deck: `${deckName}`,
                 id: `${selectedDeckData.id}`,
                 deckImg: deckImg,
-                words: realWords,
+                words: newWords,
                 userId: userId
             })
             .then(_res => {
