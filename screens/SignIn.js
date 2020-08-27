@@ -14,7 +14,7 @@ export default function SignIn({ navigation }) {
     const [userId, setUserId] = useState(null);
 
     const config = {
-      iosClientId: '155282369432-38ad416pn945o9u968s4ncoogp1okok3.apps.googleusercontent.com',
+      iosClientId: '${IOSCLIENTID}',
       scopes: ['profile', 'email']
     }
 
